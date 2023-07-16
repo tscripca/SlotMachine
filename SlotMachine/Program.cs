@@ -14,7 +14,7 @@ namespace SlotMachine // Note: actual namespace depends on the project name.
                 {
                     int randomRowNumber = rng.Next(0, 10);
                     slotMachine[0, rowIndex] = randomRowNumber;
-
+                     
                     Console.Write(randomRowNumber + " ");
 
                 }                
