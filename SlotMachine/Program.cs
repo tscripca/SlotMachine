@@ -10,6 +10,11 @@ namespace SlotMachine // Note: actual namespace depends on the project name.
 
             for (int collumnIndex = 0; collumnIndex < slotMachine.GetLength(0); collumnIndex++)
             {  
+                if(collumnIndex > 0)
+                {
+                    int randomCollumnNumber = rng.Next(0, 10);
+                    slotMachine[collumnIndex, 0] = randomCollumnNumber;
+                }
                 for (int rowIndex = 0; rowIndex < slotMachine.GetLength(1); rowIndex++)
                 {
                     int randomRowNumber = rng.Next(0, 10);
@@ -19,7 +24,7 @@ namespace SlotMachine // Note: actual namespace depends on the project name.
 
                 }                
                 Console.WriteLine();
-            }
+            }            
         }
     }
 }
