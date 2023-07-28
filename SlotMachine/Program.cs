@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace SlotMachine // Note: actual namespace depends on the project name.
 {
     internal class Program
@@ -7,60 +8,133 @@ namespace SlotMachine // Note: actual namespace depends on the project name.
         {
             const int SLOT_MACHINE_ROWS = 3;
             const int SLOT_MACHINE_COLUMNS = 3;
-            const int LUCKY_NUMBER = 7;
-            const int MINIMUM_PLAYABLE_AMOUNT = 1;
+            int numbersToFill = 0;
             bool autoPlay = true;
-            int storeLuckyNumbers = 0;
-            int creditCash = 0;
+
+            int firstRow = 0;
+            int firstRowPositionZero = 0;
+            int firstRowPositionOne = 0;
+            int firstRowPositionTwo = 0;
+            int secondRow = 1;
+            int secondRowPositionZero = 0;
+            int secondRowPositionOne = 0;
+            int secondRowPositionTwo = 0;
+            int thirdRow = 2;
+            int thirdRowPositionZero = 0;
+            int thirdRowPositionOne = 0;
+            int thirdRowPositionTwo = 0;
+
+            int topRowMatchRecord = 0;
+            int middleRowMatchRecord = 0;
+            int bottomRowMatchRecord = 0;
 
             Random rng = new Random();
             int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
 
-            Console.WriteLine("Minimum credit is 1.");
-            Console.Write("Insert credit: ");
-            creditCash = Convert.ToInt32(Console.ReadLine());
-
-            Console.Clear();
-
-            for (int moneyTracker = creditCash; moneyTracker >= MINIMUM_PLAYABLE_AMOUNT; moneyTracker--)
+            while (autoPlay)
             {
-                while (autoPlay)
+                Console.Clear();
+
+                for (int rowIndex = 0; rowIndex < slotMachine.GetLength(1); rowIndex++)
                 {
-                    Console.Clear();
-                    storeLuckyNumbers = 0;
-
-                    Console.WriteLine($"\t\t\tBalance {moneyTracker}");
-
-                    for (int rowIndex = 0; rowIndex < slotMachine.GetLength(1); rowIndex++)
+                    for (int columnIndex = 0; columnIndex < slotMachine.GetLength(0); columnIndex++)
                     {
-                        for (int columnIndex = 0; columnIndex < slotMachine.GetLength(0); columnIndex++)
-                        {
-                            int numbersToFill = rng.Next(0, 10);
-                            slotMachine[rowIndex, columnIndex] = numbersToFill;
-                            Console.Write(numbersToFill + " ");
-                            if ((rowIndex == 0 && rowIndex == 2) && columnIndex == 1)
-                            {
-                                if (numbersToFill == LUCKY_NUMBER)
-                                {
-                                    Console.WriteLine();
-                                    Console.WriteLine("CROSS OF SEVENS!!!");
-                                }
-                            }
-                            if (rowIndex == 1)
-                            {
-                                if (numbersToFill == LUCKY_NUMBER)
-                                {
-                                    storeLuckyNumbers++;
-                                }
-                            }
-                        }
-                        Console.WriteLine();
+                        numbersToFill = rng.Next(0, 10);
+                        slotMachine[rowIndex, columnIndex] = numbersToFill;
+                        Console.Write(numbersToFill + " ");
                     }
-                    if (storeLuckyNumbers == 3)
+                    Console.WriteLine();
+                }
+
+                for (int loopFirstRow = 0; loopFirstRow < slotMachine.GetLength(0); loopFirstRow++)
+                {
+                    switch (loopFirstRow)
                     {
-                        Console.WriteLine("WINNER!");
-                        break;
+                        case 0:
+                            firstRowPositionZero = slotMachine[firstRow, loopFirstRow];
+                            break;
+
+                        case 1:
+                            firstRowPositionOne = slotMachine[firstRow, loopFirstRow];
+                            break;
+
+                        case 2:
+                            firstRowPositionTwo = slotMachine[firstRow, loopFirstRow];
+                            break;
                     }
+                }
+
+                for (int loopSecondRow = 0; loopSecondRow < slotMachine.GetLength(0); loopSecondRow++)
+                {
+                    switch (loopSecondRow)
+                    {
+                        case 0:
+                            secondRowPositionZero = slotMachine[secondRow, loopSecondRow];
+                            break;
+
+                        case 1:
+                            secondRowPositionOne = slotMachine[secondRow, loopSecondRow];
+                            break;
+
+                        case 2:
+                            secondRowPositionTwo = slotMachine[secondRow, loopSecondRow];
+                            break;
+                    }
+                }
+
+                for (int loopThirdRow = 0; loopThirdRow < slotMachine.GetLength(0); loopThirdRow++)
+                {
+                    switch (loopThirdRow)
+                    {
+                        case 0:
+                            thirdRowPositionZero = slotMachine[thirdRow, loopThirdRow];
+                            break;
+
+                        case 1:
+                            thirdRowPositionOne = slotMachine[thirdRow, loopThirdRow];
+                            break;
+
+                        case 2:
+                            thirdRowPositionTwo = slotMachine[thirdRow, loopThirdRow];
+                            break;
+                    }
+                }
+
+                Console.WriteLine();
+
+                //check for winning combinations
+                if (firstRowPositionZero == firstRowPositionOne && firstRowPositionOne == firstRowPositionTwo)
+                {
+                    topRowMatchRecord++;
+                }
+
+                if (secondRowPositionZero == secondRowPositionOne && secondRowPositionOne == secondRowPositionTwo)
+                {
+                    middleRowMatchRecord++;
+                }
+
+                if (thirdRowPositionZero == thirdRowPositionOne && thirdRowPositionOne == thirdRowPositionTwo)
+                {
+                    bottomRowMatchRecord++;
+                }
+
+                //check which rows are winning
+                if (middleRowMatchRecord == 1)
+                {
+                    Console.WriteLine("You've matched the top row.");
+                    break;
+                }
+
+                if (middleRowMatchRecord == 1)
+                {
+                    Console.WriteLine("You've matched the middle row.");
+                    break;
+                }
+
+                if (bottomRowMatchRecord == 1)
+                {
+                    Console.WriteLine("You've matched the bottom row.");
+                    break;
                 }
             }
         }
