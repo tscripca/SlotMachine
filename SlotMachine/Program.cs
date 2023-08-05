@@ -15,7 +15,7 @@ namespace SlotMachine // Note: actual namespace depends on the project name.
             int columnIndex = 0;
             int countWinningLines = 0;
             Random rng = new Random();
-            int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
+            int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS]; 
             //slotMachine[0, 0] = 3; slotMachine[0, 1] = 3; slotMachine[0, 2] = 3;
             //slotMachine[1, 0] = 5; slotMachine[1, 1] = 5; slotMachine[1, 2] = 5;
             //slotMachine[2, 0] = 6; slotMachine[2, 1] = 6; slotMachine[2, 2] = 6;
