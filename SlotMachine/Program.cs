@@ -9,7 +9,7 @@ namespace SlotMachine // Note: actual namespace depends on the project name.
             const int SLOT_MACHINE_COLUMNS = 3;
             bool autoPlay = true;
             int numbersToFill = 0;
-            int numberOfTimesPlayed = 0;
+            int numberOfTimesPlayed = 0; 
             int remainingCredit = 0;
             int rowIndex = 0;
             int columnIndex = 0;
