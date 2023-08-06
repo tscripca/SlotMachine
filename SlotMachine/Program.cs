@@ -34,22 +34,22 @@ namespace SlotMachine // Note: actual namespace depends on the project name.
                     Console.WriteLine("Press 4 to bet all lines.");
 
                     Console.Write("Choose line to bet: ");
-                    int userChooseLine = Convert.ToInt32(Console.ReadLine());
+                    int userChooseLine = Convert.ToInt32(Console.ReadLine());    
                     Console.Clear();
 
                     if (userCreditBalance < THREE_DOLLARS_BET)
                     {
                         Console.WriteLine("\t\tInsufficient funds, please top-up!");
                         break;
-                    }
+                    }                    
 
                     int countOfAllIndexes = 0;//each round the count of indexes resets back to 0.
-                    int numbersToFill = 0;
 
                     for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
                     {
                         for (columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
                         {
+                            int numbersToFill = 0;
                             numbersToFill = rng.Next(0, 10);
                             slotMachine[rowIndex, columnIndex] = numbersToFill;
                             Console.Write(numbersToFill + " ");
