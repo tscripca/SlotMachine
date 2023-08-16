@@ -1,5 +1,5 @@
 ﻿using System;
-namespace SlotMachine // Note: actual namespace depends on the project name.
+namespace SlotMachine
 {
     internal class Program
     {
@@ -7,15 +7,9 @@ namespace SlotMachine // Note: actual namespace depends on the project name.
         {
             const int SLOT_MACHINE_ROWS = 3;
             const int SLOT_MACHINE_COLUMNS = 3;
-            const int ONE_DOLLAR_BET = 1;
-            const int THREE_DOLLARS_BET = 3;
-            const int ONE_DOLLAR_WIN = 1;
-            const int THREE_DOLLARS_WIN = 3;
+            const int MINIMUM_CREDIT = 1;
 
-            bool autoPlay = true; 
-
-            int columnIndex = 0;
-            int countWinningLines = 0;
+            bool autoPlay = true;            
 
             Random rng = new Random();
             int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
@@ -23,159 +17,131 @@ namespace SlotMachine // Note: actual namespace depends on the project name.
             while (autoPlay)
             {
                 Console.Write("Insert credit: ");
-                int userCreditBalance = Convert.ToInt32(Console.ReadLine());                
+                int totalCreditBalance = Convert.ToInt32(Console.ReadLine());
 
-                while (userCreditBalance > 0)
+                while (totalCreditBalance >= MINIMUM_CREDIT)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Press 1 bet top line.");
-                    Console.WriteLine("Press 2 bet middle line.");
-                    Console.WriteLine("Press 3 bet bottom line.");
-                    Console.WriteLine("Press 4 to bet all lines.");
+                    Console.WriteLine("1 for horizontal.");
+                    Console.WriteLine("2 for vertical");
+                    Console.WriteLine("3 for diagonals.");
+                    char userChooseLines = Convert.ToChar(Console.ReadLine());
 
-                    Console.Write("Choose line to bet: ");
-                    int userChooseLine = Convert.ToInt32(Console.ReadLine());    
+                    Console.WriteLine("$1 to bet one line.");
+                    Console.WriteLine("$2 to bet two lines.");
+                    Console.WriteLine("$3 to bet all lines.");
+                    Console.Write("Insert amount to bet: ");
+                    int amountToBet = Convert.ToInt32(Console.ReadLine());
                     Console.Clear();
 
-                    if (userCreditBalance < THREE_DOLLARS_BET)
-                    {
-                        Console.WriteLine("\t\tInsufficient funds, please top-up!");
-                        break;
-                    }                    
+                    totalCreditBalance = totalCreditBalance - amountToBet;
+                    Console.WriteLine($"\t\t\tCredit balance: ${totalCreditBalance}");
 
-                    int countOfAllIndexes = 0;//each round the count of indexes resets back to 0.
-
+                    int numbersToFill = 0;
                     for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
                     {
-                        for (columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
+                        for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
                         {
-                            int numbersToFill = 0;
                             numbersToFill = rng.Next(0, 10);
                             slotMachine[rowIndex, columnIndex] = numbersToFill;
                             Console.Write(numbersToFill + " ");
-                            countOfAllIndexes++;//the total number of elements in the array.
                         }
                         Console.WriteLine();
                     }
 
-                    switch (userChooseLine)
-                    {
-                        case 1:
-                            userCreditBalance -= ONE_DOLLAR_BET;
-                            Console.WriteLine("\t\t1$ has been deducted from your balance.");
-                            break;
-                        case 2:
-                            userCreditBalance -= ONE_DOLLAR_BET;
-                            Console.WriteLine("\t\t1$ has been deducted from your balance.");
-                            break;
-                        case 3:
-                            userCreditBalance -= ONE_DOLLAR_BET;
-                            Console.WriteLine("\t\t1$ has been deducted from your balance.");
-                            break;
-                        case 4:                            
-                            userCreditBalance -= THREE_DOLLARS_BET;
-                            Console.WriteLine("\t\t3$ have been deducted from your balance.");
-                            break;
-                    }
+                    int horizontalRowMatch = 0;
+                    int verticalRowMatch = 0;
+                    int horizontalMatchingNumbers = 0;
+                    int verticalMatchingNumbers = 0;
+                    int newBalanceAfterWin = totalCreditBalance + amountToBet;
+                    int partialWinCredit = 0;
 
-                    int recordTopRowMatches = 0; //ressets all counters back to 0 after each bet/round.
-                    int recordMiddleRowMatches = 0;
-                    int recordBottomRowMatches = 0;
-
-                    for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
+                    while (userChooseLines == '1')
                     {
-                        for (columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
+                        for (int rowIndex = 0; rowIndex < amountToBet; rowIndex++)
                         {
-                            if (slotMachine[rowIndex, 0] == slotMachine[rowIndex, columnIndex])
+                            horizontalMatchingNumbers = 0;
+                            for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
                             {
-                                switch (rowIndex)
+                                if (slotMachine[rowIndex, 0] == slotMachine[rowIndex, columnIndex])
                                 {
-                                    case 0:
-                                        recordTopRowMatches++;//if equal to 3 then it's a winning line.
-                                        countWinningLines++;//if equal to the total number of all indexes in the array, then all winning lines.
-                                        break;
-                                    case 1:
-                                        recordMiddleRowMatches++;
-                                        countWinningLines++;
-                                        break;
-                                    case 2:
-                                        recordBottomRowMatches++;
-                                        countWinningLines++;
-                                        break;
+                                    horizontalMatchingNumbers++;
+                                }
+                                if (horizontalMatchingNumbers == slotMachine.GetLength(1))
+                                {
+                                    horizontalRowMatch++;
                                 }
                             }
                         }
+                        partialWinCredit = totalCreditBalance + horizontalRowMatch;
+                        if (horizontalMatchingNumbers == slotMachine.GetLength(1) * amountToBet)
+                        {
+                            totalCreditBalance = newBalanceAfterWin;
+                            Console.WriteLine("Winning match on selected lines!");
+                            Console.WriteLine($"You've won ${amountToBet} back into your account.");
+                            Console.WriteLine($"\t\t\tNew credit balance is: ${newBalanceAfterWin}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"No match found on selected lines.");
+                        }
+                        break;
                     }
 
-                    switch (userChooseLine)
+                    while (userChooseLines == '2')
                     {
-                        case 1:
-                            if (recordTopRowMatches >= SLOT_MACHINE_COLUMNS)
+                        for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
+                        {
+                            for (int columnIndex = 0; columnIndex < amountToBet; columnIndex++)
                             {
-                                userCreditBalance += 1;
-                                Console.WriteLine("\t\tTop line winning.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("\t\tNo winning cobination on top line.");
-                            }
-                            break;
-                        case 2:
-                            if (recordMiddleRowMatches >= SLOT_MACHINE_COLUMNS)
-                            {
-                                userCreditBalance += ONE_DOLLAR_WIN;
-                                Console.WriteLine("\t\tMiddle line winning.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("\t\tNo winning combination on middle line.");
-                            }
-                            break;
-                        case 3:
-                            if (recordBottomRowMatches >= SLOT_MACHINE_COLUMNS)
-                            {
-                                userCreditBalance += ONE_DOLLAR_WIN;
-                                Console.WriteLine("\t\tBottom line winning.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("\t\tNo winning combination on bottom line.");
-                            }
-                            break;
-                        case 4:
-                            if (countWinningLines >= countOfAllIndexes)
-                            {
-                                userCreditBalance += THREE_DOLLARS_WIN;
-                                Console.WriteLine("\t\tAll winning lines.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("\t\tNo winning combination on the three lines.");
-
-                                if (recordTopRowMatches >= 3)
+                                if (slotMachine[0, rowIndex] == slotMachine[rowIndex, columnIndex])
                                 {
-                                    userCreditBalance += ONE_DOLLAR_WIN;
-                                    Console.WriteLine("\t\t...but you still get 1$ for the top line win!");
+                                    verticalMatchingNumbers++;
                                 }
-                                else if (recordMiddleRowMatches >= 3)
+                                if(verticalMatchingNumbers == slotMachine.GetLength(0))
                                 {
-                                    userCreditBalance += ONE_DOLLAR_WIN;
-                                    Console.WriteLine("\t\t..but you still get 1$ for the middle line win!");
-                                }
-                                else if (recordBottomRowMatches >= 3)
-                                {
-                                    userCreditBalance += ONE_DOLLAR_WIN;
-                                    Console.WriteLine("\t\t...but you still get 1$ for the bottom line win!");
+                                    verticalRowMatch++;
                                 }
                             }
-                            break;
+                        }
+                        if (verticalMatchingNumbers == slotMachine.GetLength(1) * amountToBet)
+                        {
+                            totalCreditBalance = newBalanceAfterWin;
+                            Console.WriteLine("Winning match on selected lines!");
+                            Console.WriteLine($"You've won ${amountToBet} back into your account.");
+                            Console.WriteLine($"\t\t\tNew credit balance is: ${newBalanceAfterWin}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"No match found on selected lines.");
+                        }
+                        break;
                     }
-                    Console.WriteLine();
-                    Console.WriteLine($"\t\t\tCredit balance: {userCreditBalance}");
-                    countWinningLines = 0;//resets the counter after the selected row has been checked.
+                    if (horizontalRowMatch == 1)
+                    {
+                        Console.WriteLine("...but you have one horizontal winning line, somewhere.");
+                        Console.WriteLine("$1 goes back into your account.");
+                        Console.WriteLine($"\t\t\tNew credit balance is: ${partialWinCredit}");
+                    }
+                    if (horizontalRowMatch == 2)
+                    {
+                        Console.WriteLine("...but you have two horizontal winning lines, somewhere.");
+                        Console.WriteLine("$2 go back into your account.");
+                        Console.WriteLine($"\t\t\tNew credit balance is: ${partialWinCredit}");
+                    }
+                    if (verticalRowMatch == 1)
+                    {
+                        Console.WriteLine("...but you have one vertical winning line, somewhere.");
+                        Console.WriteLine("$1 goes back into your account.");
+                        Console.WriteLine($"\t\t\tNew credit balance is: ${partialWinCredit}");
+                    }
+                    if (verticalRowMatch == 2)
+                    {
+                        Console.WriteLine("...but you have two vertical winning lines, somewhere.");
+                        Console.WriteLine("$2 go back into your account.");
+                        Console.WriteLine($"\t\t\tNew credit balance is: ${partialWinCredit}");
+                    }
                 }
-
-                Console.WriteLine("No credit available, press any key to top-up.");
+                Console.WriteLine("Insufficient funds, press any key to top-up!");
                 Console.ReadKey();
                 Console.Clear();
             }
