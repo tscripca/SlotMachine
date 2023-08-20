@@ -1,5 +1,6 @@
 # SlotMachine
 
-In this game you will play a very simple slot machine game.
-Game starts, insert the amount of credit you want to play and then bet one, two or all three horizontal rows.
-If you guess what you bet you will win credit back into your deposit.(e.g. bet 2 lines and win 2 lines you win 2 credits, or win 1 credit if you bet and win on 1 line, and so on).
+This is a generic slot machine game. 
+The player will have to insert an amount of cash which will be stored in his account. From here the choice to bet on one, two or three lines.
+The slot machine will check for a winning combination on the selected lines, both horizontally and vertically, and the player will get $1 back for each winning combination.
+(e.g. if player bets $3 dollars for three line and the slotmachine outputs only one winning combination then the player will win only $1).
