@@ -35,7 +35,7 @@ namespace SlotMachine
                 $"${BET_TWO_LINES} will be added to your account.)");
             Console.WriteLine("Press any key to start!");
             Console.ReadKey();
-            Console.Clear();
+            Console.Clear();   
 
             while (autoPlay)
             {
