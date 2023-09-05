@@ -16,7 +16,7 @@ namespace SlotMachine
             const int BET_TWO_LINES = 2;
 
             bool autoPlay = true;
-            int userCredits = 0;
+            int credits = 0;
 
             Random rng = new Random();
             int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
@@ -43,11 +43,11 @@ namespace SlotMachine
                 int totalCreditBalance = Convert.ToInt32(Console.ReadLine());
                 Console.Clear();
                 Console.WriteLine($"\t\t\t${totalCreditBalance} have been added.");
-                userCredits += totalCreditBalance;
+                credits += totalCreditBalance;
 
                 while (totalCreditBalance >= MINIMUM_FEE)
                 {
-                    Console.WriteLine($"\t\t\tCredit balance: ${userCredits}");
+                    Console.WriteLine($"\t\t\tCredit balance: ${credits}");
                     Console.WriteLine("Choose:");
                     Console.WriteLine("1 - horizontal");
                     Console.WriteLine("2 - vertical");
@@ -213,7 +213,7 @@ namespace SlotMachine
                         }
                     }
                     Console.WriteLine($"\t\t\tYou've won ${winningRowCount} this round.");
-                    userCredits = totalCreditBalance + winningRowCount;
+                    credits = totalCreditBalance + winningRowCount;
                 }
                 Console.WriteLine("Not enough credit available! Press any key to top-up!");
                 Console.ReadKey();
