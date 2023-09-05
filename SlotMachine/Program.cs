@@ -16,12 +16,12 @@ namespace SlotMachine
             const int BET_TWO_LINES = 2;
 
             bool autoPlay = true;
-            int creditAfterWin = 0;
+            int userCredits = 0;
 
             Random rng = new Random();
             int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
 
-            int columnLastIndexPosition = slotMachine.GetLength(1) - 1;
+            int lastColumnIndex = slotMachine.GetLength(1) - 1;
 
             int betAmount = 0;
 
@@ -43,11 +43,11 @@ namespace SlotMachine
                 int totalCreditBalance = Convert.ToInt32(Console.ReadLine());
                 Console.Clear();
                 Console.WriteLine($"\t\t\t${totalCreditBalance} have been added.");
-                creditAfterWin += totalCreditBalance;
+                userCredits += totalCreditBalance;
 
                 while (totalCreditBalance >= MINIMUM_FEE)
                 {
-                    Console.WriteLine($"\t\t\tCredit balance: ${creditAfterWin}");
+                    Console.WriteLine($"\t\t\tCredit balance: ${userCredits}");
                     Console.WriteLine("Choose:");
                     Console.WriteLine("1 - horizontal");
                     Console.WriteLine("2 - vertical");
@@ -105,20 +105,20 @@ namespace SlotMachine
                     totalCreditBalance -= betAmount;
                     Console.WriteLine($"\t\t\tCredit balance: ${totalCreditBalance}");
 
-                    int numbersToFill = 0;
+                    int rndNum = 0;
 
                     for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
                     {
                         for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
                         {
-                            numbersToFill = rng.Next(0, 10);
-                            slotMachine[rowIndex, columnIndex] = numbersToFill;
-                            Console.Write(numbersToFill + " ");
+                            rndNum = rng.Next(0, 10);
+                            slotMachine[rowIndex, columnIndex] = rndNum;
+                            Console.Write(rndNum + " ");
                         }
                         Console.WriteLine();
                     }
 
-                    int storeWinningRow = 0;
+                    int winningRowCount = 0;
 
                     if (userChooseGame == PLAY_HORIZONTAL)
                     {
@@ -136,7 +136,7 @@ namespace SlotMachine
                             }
                             if (numbersMatch)
                             {
-                                storeWinningRow++;
+                                winningRowCount++;
                             }
                         }
                     }
@@ -157,7 +157,7 @@ namespace SlotMachine
                             }
                             if (numbersMatch)
                             {
-                                storeWinningRow++;
+                                winningRowCount++;
                             }
                         }
                     }
@@ -165,7 +165,7 @@ namespace SlotMachine
                     if (userChooseGame == PLAY_DIAGONALS)
                     {
                         Console.WriteLine("Playing diagonals!");
-                        int storeMatchingValues = 0;
+                        int matchingNumbers = 0;
                         //checking the 1st diagonal
                         for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
                         {
@@ -180,23 +180,23 @@ namespace SlotMachine
                             }
                             if (numbersMatch)
                             {
-                                storeMatchingValues++;
+                                matchingNumbers++;
                             }
                         }
-                        if (storeMatchingValues >= slotMachine.GetLength(1))
+                        if (matchingNumbers >= slotMachine.GetLength(1))
                         {
-                            storeWinningRow++;
+                            winningRowCount++;
                         }
 
-                        storeMatchingValues = 0;
+                        matchingNumbers = 0;
                         //checking 2nd diagonal
                         for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
                         {
                             bool numbersMatch = true;
                             int randomValue = 0;
-                            for (int columnIndex = columnLastIndexPosition - rowIndex; columnIndex >= randomValue; columnIndex--)
+                            for (int columnIndex = lastColumnIndex - rowIndex; columnIndex >= randomValue; columnIndex--)
                             {
-                                if (slotMachine[0, columnLastIndexPosition] != slotMachine[rowIndex, columnIndex])
+                                if (slotMachine[0, lastColumnIndex] != slotMachine[rowIndex, columnIndex])
                                 {
                                     numbersMatch = false;
                                 }
@@ -204,16 +204,16 @@ namespace SlotMachine
                             }
                             if (numbersMatch)
                             {
-                                storeMatchingValues++;
+                                matchingNumbers++;
                             }
                         }
-                        if (storeMatchingValues >= slotMachine.GetLength(1))
+                        if (matchingNumbers >= slotMachine.GetLength(1))
                         {
-                            storeWinningRow++;
+                            winningRowCount++;
                         }
                     }
-                    Console.WriteLine($"\t\t\tYou've won ${storeWinningRow} this round.");
-                    creditAfterWin = totalCreditBalance + storeWinningRow;
+                    Console.WriteLine($"\t\t\tYou've won ${winningRowCount} this round.");
+                    userCredits = totalCreditBalance + winningRowCount;
                 }
                 Console.WriteLine("Not enough credit available! Press any key to top-up!");
                 Console.ReadKey();
