@@ -14,6 +14,7 @@ namespace SlotMachine
             const int PLAY_DIAGONALS = 3;
             const int BET_ONE_LINE = 1;
             const int BET_TWO_LINES = 2;
+            const int UPPPER_BOUND = 9;
 
             bool autoPlay = true;
             int credits = 0;
@@ -115,7 +116,7 @@ namespace SlotMachine
                     {
                         for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
                         {
-                            rndNum = rng.Next(0, 10);
+                            rndNum = rng.Next(0, UPPPER_BOUND);
                             slotMachine[rowIndex, columnIndex] = rndNum;
                             Console.Write(rndNum + " ");
                         }
