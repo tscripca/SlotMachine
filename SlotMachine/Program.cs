@@ -110,7 +110,7 @@ namespace SlotMachine
                     totalCreditBalance = credits - betAmount;
                     Console.WriteLine($"\t\t\tCredit balance: ${totalCreditBalance}");
 
-                    int rndNum = 0;
+                    int rndNum = 0; 
 
                     for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
                     {
