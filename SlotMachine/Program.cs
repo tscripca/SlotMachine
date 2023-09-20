@@ -167,7 +167,7 @@ namespace SlotMachine
                         }
                     }
 
-                    if (userChooseToPlay == PLAY_DIAGONALS)
+                    if (userChooseToPlay == PLAY_DIAGONALS) 
                     {
                         Console.WriteLine("\t\t\tPlaying diagonals!");
                         int matchingNumbers = 0;
