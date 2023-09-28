@@ -2,6 +2,12 @@
 
 namespace SlotMachine
 {
+    enum gameType
+    {
+        horizontal = 1,
+        vertical = 2,
+        diagonal = 3
+    }
     internal class Program
     {
         static void Main(string[] args)
@@ -14,7 +20,8 @@ namespace SlotMachine
             const int PLAY_DIAGONALS = 3;
             const int BET_ONE_LINE = 1;
             const int BET_TWO_LINES = 2;
-            const int UPPPER_BOUND = 9;
+            const int UPPPER_BOUND = 10;
+            const int VALUE_TO_ENTER_LOOP = -1;
 
             bool autoPlay = true;
             int credits = 0;
@@ -28,8 +35,8 @@ namespace SlotMachine
 
             Console.WriteLine("\t\t\t=SLOT MACHINE=");
             Console.WriteLine($"This is a {SLOT_MACHINE_ROWS} by {SLOT_MACHINE_COLUMNS} slot machine.");
-            Console.WriteLine("Insert credit amount then choose between three game types, Horizontal, Vertical or Diagonal.");            
-            Console.WriteLine($"On each game you can bet on {BET_ONE_LINE}, {BET_TWO_LINES} up to {SLOT_MACHINE_ROWS} lines or columns.");
+            Console.WriteLine("Insert credit amount then choose between three game types, Horizontal, Vertical or Diagonal.");
+            Console.WriteLine($"Each round you can bet on {BET_ONE_LINE}, {BET_TWO_LINES} up to {SLOT_MACHINE_ROWS} lines.");
             Console.WriteLine("Credit will be deducted from your balance proportionally with the number of lines you're playing, and " +
                 $"will be added back into your account in case of a win for each matching line.(bet {BET_TWO_LINES} lines and match then ${BET_TWO_LINES} will be added to your account.)");
             Console.WriteLine("Press any key to start!");
@@ -41,22 +48,17 @@ namespace SlotMachine
                 Console.Write("Insert credit: ");
                 int totalCreditBalance = Convert.ToInt32(Console.ReadLine());
                 Console.Clear();
-                Console.WriteLine($"\t\t\t${totalCreditBalance} have been added.");
-                credits += totalCreditBalance;
+                credits += totalCreditBalance;               
 
-                while (totalCreditBalance >= MINIMUM_FEE)
+                while (credits >= MINIMUM_FEE)
                 {
                     Console.WriteLine($"\t\t\tCredit balance: ${credits}");
-                    Console.WriteLine("Choose:");
-                    Console.WriteLine("1 - horizontal");
-                    Console.WriteLine("2 - vertical");
-                    Console.WriteLine("3 - diagonals");
-                    int userChooseToPlay = Convert.ToInt32(Console.ReadLine());
-                    Console.Clear();
+
+                    int userChooseToPlay = VALUE_TO_ENTER_LOOP;
 
                     while (userChooseToPlay <= 0 || userChooseToPlay > slotMachine.GetLength(0))
                     {
-                        Console.WriteLine("Selection not available! Try again.");
+                        Console.WriteLine("Choose:");
                         Console.WriteLine("1 - horizontal");
                         Console.WriteLine("2 - vertical");
                         Console.WriteLine("3 - diagonals");
@@ -110,7 +112,7 @@ namespace SlotMachine
                     totalCreditBalance = credits - betAmount;
                     Console.WriteLine($"\t\t\tCredit balance: ${totalCreditBalance}");
 
-                    int rndNum = 0; 
+                    int rndNum = 0;
 
                     for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
                     {
@@ -167,7 +169,7 @@ namespace SlotMachine
                         }
                     }
 
-                    if (userChooseToPlay == PLAY_DIAGONALS) 
+                    if (userChooseToPlay == PLAY_DIAGONALS)
                     {
                         Console.WriteLine("\t\t\tPlaying diagonals!");
                         int matchingNumbers = 0;
