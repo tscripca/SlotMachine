@@ -6,12 +6,7 @@ namespace SlotMachine
     {
         horizontal,
         vertical,
-        diagonal
-    }
-    enum DiagonalsToBet
-    {
-        betOne,
-        betTwo
+        diagonal 
     }
     internal class Program
     {
@@ -19,9 +14,9 @@ namespace SlotMachine
         {
             const int SLOT_MACHINE_ROWS = 3;
             const int SLOT_MACHINE_COLUMNS = 3;
-            const int MINIMUM_FEE = 1;
+            //const int MINIMUM_FEE = 1;
             const int UPPPER_BOUND = 10;
-            const int VALUE_TO_ENTER_LOOP = -1;            
+            const int VALUE_TO_ENTER_LOOP = -1;
             const int BET_ONE_LINE = 1;
             const int BET_TWO_LINES = 2;
 
@@ -47,101 +42,88 @@ namespace SlotMachine
 
             while (autoPlay)
             {
-                Console.Write("Insert credit: ");          
+                Console.Write("Insert credit: ");
                 int totalCreditBalance = Convert.ToInt32(Console.ReadLine());
                 Console.Clear();
                 credits += totalCreditBalance;
 
                 GameMode gameModEnum = GameMode.horizontal;
 
-                while (credits >= MINIMUM_FEE)
-                {
+                //while (credits >= MINIMUM_FEE)
+                //{
                     Console.WriteLine($"\t\t\tCredit balance: ${credits}");
 
                     int userGameMode = VALUE_TO_ENTER_LOOP;
 
-                    while (userGameMode <= 0 || userGameMode > slotMachine.GetLength(0))
+                    while (userGameMode <= 0  || userGameMode > slotMachine.GetLength(0))
                     {
                         Console.WriteLine("Choose game mode:");
-                        Console.WriteLine("1 - horizontal");                          
-                        Console.WriteLine("2 - vertical");                            
-                        Console.WriteLine("3 - diagonals");                            
-                        var chooseGameMode = Console.ReadLine();                       
-
-                        switch (chooseGameMode)                                     
-                        {                            
-                            case "1":                                                 
-                                gameModEnum = GameMode.horizontal;
-                                userGameMode *= userGameMode; //set this to a positive value because I want to exit this loop and continue,
-                                                              //otherwise it will loop forever even though the values are ok to play.
-                                while (true)
-                                {
-                                    Console.Write($"Ho many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
-                                    betAmount = Convert.ToInt32(Console.ReadLine());
-                                    Console.Clear();
-
-                                    if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Selection not avaialable!Try again.");
-                                    }
-                                }
-                                break;      
-                                
-                            case "2":                                                  
-                                gameModEnum = GameMode.vertical;
-                                userGameMode *= userGameMode;
-                                while (true)
-                                {
-                                    Console.Write($"Ho many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
-                                    betAmount = Convert.ToInt32(Console.ReadLine());
-                                    Console.Clear();
-
-                                    if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Selection not avaialable!Try again.");
-                                    }
-                                }
-                                break;
-
-                            case "3":
-                                gameModEnum = GameMode.diagonal;
-                                userGameMode *= userGameMode;
-                                while (true)
-                                {
-                                    Console.Write($"How many diagonals would you like to play?({BET_ONE_LINE} or {BET_TWO_LINES}): ");
-                                    betAmount = Convert.ToInt32(Console.ReadLine());
-                                    Console.Clear();
-                                    if (betAmount >= BET_ONE_LINE && betAmount <= BET_TWO_LINES)
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Selection not avaialable!Try again.");
-                                    }
-                                }
-                                break;
-
-                            default:                                                  
-                                Console.WriteLine("Invalid choice.");  
-                                break;
-                        }   
-                        Console.WriteLine();
-                        Console.Clear();
-                    }                  
-                
-                    if (betAmount > totalCreditBalance)
-                    {
-                        break;
+                        Console.WriteLine("1 - horizontal");
+                        Console.WriteLine("2 - vertical");
+                        Console.WriteLine("3 - diagonals");
+                        userGameMode = Convert.ToInt32(Console.ReadLine());
                     }
+
+                    switch (gameModEnum)
+                    {
+                        case GameMode.horizontal:
+                            while (true)
+                            {
+                                Console.Write($"Ho many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
+                                betAmount = Convert.ToInt32(Console.ReadLine());
+                                Console.Clear();
+
+                                if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Selection not avaialable!Try again.");
+                                }
+                            }
+                            break;
+
+                        case GameMode.vertical:
+                            while (true)
+                            {
+                                Console.Write($"Ho many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
+                                betAmount = Convert.ToInt32(Console.ReadLine());
+                                Console.Clear();
+
+                                if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Selection not avaialable!Try again.");
+                                }
+                            }
+                            break;
+
+                    case GameMode.diagonal:
+                        while (true)
+                        {
+                            Console.Write($"How many diagonals would you like to play?({BET_ONE_LINE} or {BET_TWO_LINES}): ");
+                            betAmount = Convert.ToInt32(Console.ReadLine());
+                            Console.Clear();
+                            if (betAmount >= BET_ONE_LINE && betAmount <= BET_TWO_LINES)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Selection not avaialable!Try again.");
+                            }
+                        }
+                        break;
+
+                    default:
+                            Console.WriteLine("Invalid choice.");
+                            break;
+                    }
+                    Console.WriteLine();
 
                     totalCreditBalance = credits - betAmount;
                     Console.WriteLine($"\t\t\tCredit balance: ${totalCreditBalance}");
@@ -255,10 +237,22 @@ namespace SlotMachine
                     }
                     Console.WriteLine($"\t\t\tYou've won ${winningRowCount} this round.");
                     credits = totalCreditBalance + winningRowCount;
+                //}
+                if (betAmount > totalCreditBalance)
+                {
+                    Console.WriteLine("No credit available! Press ENTER to top-up or ESC to exit!");
+                    ConsoleKeyInfo info = Console.ReadKey();
+                    if (info.Key == ConsoleKey.Enter)
+                    {
+                        Console.WriteLine("You've pressed enter!");
+                        autoPlay = true;
+                    }
+                    else if (info.Key == ConsoleKey.Enter)
+                    {
+                        Console.WriteLine("You've presed Escape!");
+                        autoPlay = false;
+                    }
                 }
-                Console.WriteLine("Not enough credit available! Press any key to top-up!");
-                Console.ReadKey();
-                Console.Clear();
             }
         }
     }
