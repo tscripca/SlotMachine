@@ -36,10 +36,11 @@ namespace SlotMachine
             char userGameMode = 'h';
             while (autoPlay)
             {
+                //program will come back here when no credit left or not enough to bet.
                 while (remainingCredit < MINIMUM_FEE)
                 {
-                    //I want to store my current credit when not enough to play, and then add more credit on top of it,
-                    //so negative values are not allowed.
+                    //I want to store my current credit even when there is not enough credit to play, and then add more credit on top of it,
+                    //so negative values are not allowed.                    
                     if (remainingCredit < 0)
                     {
                         remainingCredit = userCredits;
