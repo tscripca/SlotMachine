@@ -20,50 +20,54 @@ namespace SlotMachine
             Random rng = new Random();
             int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
             int lastColumnIndex = slotMachine.GetLength(1) - 1;
-            //Console.WriteLine("\t\t\t=SLOT MACHINE=");
-            //Console.WriteLine($"This is a {SLOT_MACHINE_ROWS} by {SLOT_MACHINE_COLUMNS} slot machine.");
-            //Console.WriteLine("Insert credit amount then choose between three game types, Horizontal, Vertical or Diagonal.");
-            //Console.WriteLine($"Each round you can bet on {BET_ONE_LINE}, {BET_TWO_LINES} up to {SLOT_MACHINE_ROWS} lines.");
-            //Console.WriteLine("Credit will be deducted from your balance proportionally with the number of lines you're playing, and " +
-            //    $"will be added back into your account in case of a win for each matching line.(bet {BET_TWO_LINES} lines and match then ${BET_TWO_LINES} will be added to your account.)");
-            //Console.WriteLine("Press any key to start!");
-            //Console.ReadKey();
-            //Console.Clear();
+            Console.WriteLine("\t\t\t=SLOT MACHINE=");
+            Console.WriteLine($"This is a {SLOT_MACHINE_ROWS} by {SLOT_MACHINE_COLUMNS} slot machine.");
+            Console.WriteLine("Insert credit amount then choose between three game types, Horizontal(H), Vertical(V) or Diagonal(D).");
+            Console.WriteLine($"Each round you will be asked to bet either {BET_ONE_LINE}, {BET_TWO_LINES} up to {SLOT_MACHINE_ROWS} lines.");
+            Console.WriteLine("Credit will be deducted from your balance proportionally with the number of lines you're playing, and " +
+                $"will be added back into your account in case of a win for each matching line (e.g.match {BET_TWO_LINES} then win ${BET_TWO_LINES})");
+            Console.WriteLine("Press any key to start!");
+            Console.ReadKey();
+            Console.Clear();
+            int remainingCredit = 0;
             int userCredits = 0;
-            int creditsRemaining = 0;
             int betAmount = 0;
             bool autoPlay = true;
-            string userGameMode = "";            
+            char userGameMode = 'h';
             while (autoPlay)
             {
-                while (userCredits < MINIMUM_FEE)
+                while (remainingCredit < MINIMUM_FEE)
                 {
+                    //I want to store my current credit when not enough to play, and then add more credit on top of it,
+                    //so negative values are not allowed.
+                    if (remainingCredit < 0)
+                    {
+                        remainingCredit = userCredits;
+                    }
                     Console.Write("Insert credit: ");
-                    userCredits = Convert.ToInt32(Console.ReadLine());
+                    remainingCredit = Convert.ToInt32(Console.ReadLine());
+                    userCredits += remainingCredit;
                     Console.Clear();
                 }
-                userCredits += creditsRemaining;
-                Console.Clear();
                 GameMode gameModEnum = GameMode.horizontal;
-                Console.WriteLine($"\t\t\tCredit balance: ${userCredits}");
                 bool checkValue = false;
                 while (!checkValue)
                 {
-                    Console.WriteLine("Choose game mode:");
-                    Console.WriteLine("h - horizontal");
-                    Console.WriteLine("v - vertical");
-                    Console.WriteLine("d - diagonals");
-                    userGameMode = Console.ReadLine();
-                    if (userGameMode == "h" || userGameMode == "v" || userGameMode == "d")
+                    Console.WriteLine($"\t\t\t\t\tCredits: ${userCredits}");
+                    Console.WriteLine("Choose game mode(h, v, d): ");
+                    ConsoleKeyInfo chooseMode = Console.ReadKey();
+                    userGameMode = chooseMode.KeyChar;
+
+                    if (userGameMode == 'h' || userGameMode == 'v' || userGameMode == 'd')
                     {
                         checkValue = true;
                     }
                 }
                 switch (userGameMode)
                 {
-                    case "h": gameModEnum = GameMode.horizontal; break;
-                    case "v": gameModEnum = GameMode.vertical; break;
-                    case "d": gameModEnum = GameMode.diagonal; break;
+                    case 'h': gameModEnum = GameMode.horizontal; break;
+                    case 'v': gameModEnum = GameMode.vertical; break;
+                    case 'd': gameModEnum = GameMode.diagonal; break;
                     default: Console.WriteLine("Not valid!"); break;
                 }
                 switch (gameModEnum)
@@ -71,11 +75,13 @@ namespace SlotMachine
                     case GameMode.horizontal:
                         while (true)
                         {
-                            Console.Write($"Ho many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
+                            Console.WriteLine();
+                            Console.WriteLine($"How many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
                             betAmount = Convert.ToInt32(Console.ReadLine());
                             Console.Clear();
                             if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
                             {
+                                Console.WriteLine("\t\t\tPlaying horizontal!");
                                 break;
                             }
                             else
@@ -87,11 +93,13 @@ namespace SlotMachine
                     case GameMode.vertical:
                         while (true)
                         {
-                            Console.Write($"Ho many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
+                            Console.WriteLine();
+                            Console.WriteLine($"How many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
                             betAmount = Convert.ToInt32(Console.ReadLine());
                             Console.Clear();
                             if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
                             {
+                                Console.WriteLine("\t\t\tPlaying vertical!");
                                 break;
                             }
                             else
@@ -102,8 +110,10 @@ namespace SlotMachine
                         break;
                     case GameMode.diagonal:
                         betAmount = BET_TWO_LINES;
+                        Console.Clear();
                         while (true)
                         {
+                            Console.WriteLine("\t\t\tPlaying diagonals!");
                             break;
                         }
                         break;
@@ -111,13 +121,13 @@ namespace SlotMachine
                         Console.WriteLine("Invalid choice.");
                         break;
                 }
-                if (creditsRemaining < MINIMUM_FEE)
+                remainingCredit = userCredits - betAmount;
+                //I need to check if user can afford to play the desired number of lines.
+                if (betAmount > userCredits)
                 {
-                    autoPlay = true;
-                    break;
+                    Console.WriteLine("Not enough credit!");
+                    continue;
                 }
-                creditsRemaining = userCredits - betAmount;
-                Console.WriteLine($"\t\t\tCredit balance: ${creditsRemaining}");
                 int rndNum = 0;
                 for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
                 {
@@ -132,7 +142,6 @@ namespace SlotMachine
                 int winningRowCount = 0;
                 if (gameModEnum == GameMode.horizontal)
                 {
-                    Console.WriteLine("\t\t\tPlaying horizontal!");
                     for (int rowIndex = 0; rowIndex < betAmount; rowIndex++)
                     {
                         bool numbersMatch = true;
@@ -152,7 +161,6 @@ namespace SlotMachine
                 }
                 if (gameModEnum == GameMode.vertical)
                 {
-                    Console.WriteLine("\t\t\tPlaying vertical!");
                     for (int columnIndex = 0; columnIndex < betAmount; columnIndex++)
                     {
                         bool numbersMatch = true;
@@ -172,7 +180,6 @@ namespace SlotMachine
                 }
                 if (gameModEnum == GameMode.diagonal)
                 {
-                    Console.WriteLine("\t\t\tPlaying diagonals!");
                     int matchingDiagonalNumbers = 0;
                     //checking the 1st diagonal
                     for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
@@ -218,9 +225,28 @@ namespace SlotMachine
                     {
                         winningRowCount++;
                     }
-                }                
+                }
                 Console.WriteLine($"\t\t\tYou've won ${winningRowCount} this round.");
-                userCredits = creditsRemaining + winningRowCount;
+                userCredits = remainingCredit + winningRowCount;
+                //wait to reach zero credit then ask if the user wants to continue or stop playing.
+                if (userCredits == 0)
+                {
+                    Console.WriteLine("Your credit balance is $0.");
+                    Console.WriteLine("Keep playing? Y/N: ");
+                    ConsoleKeyInfo userAnswer = Console.ReadKey();
+                    char keepPlaying = (char)userAnswer.KeyChar;
+                    autoPlay = (keepPlaying == 'y');
+                    if (keepPlaying == 'y')
+                    {
+                        autoPlay = true;
+                        Console.Clear();
+                    }
+                    else if (keepPlaying == 'n')
+                    {
+                        autoPlay = false;
+                        Console.Clear();
+                    }
+                }
             }
         }
     }
