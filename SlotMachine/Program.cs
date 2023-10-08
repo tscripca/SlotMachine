@@ -51,29 +51,24 @@ namespace SlotMachine
                     Console.Clear();
                 }
                 GameMode gameModEnum = GameMode.horizontal;
-                bool checkValue = false;
-                while (!checkValue)
-                {
                     Console.WriteLine($"\t\t\t\t\tCredits: ${userCredits}");
-                    Console.WriteLine("Choose game mode(h, v, d): ");
+                    Console.Write("Choose game mode(h, v, d): ");
                     ConsoleKeyInfo chooseMode = Console.ReadKey();
                     userGameMode = chooseMode.KeyChar;
-
-                    if (userGameMode == 'h' || userGameMode == 'v' || userGameMode == 'd')
-                    {
-                        checkValue = true;
-                    }
-                }
+                Console.WriteLine();
+                Console.Clear();
+                //this will validate the user input
                 switch (userGameMode)
                 {
                     case 'h': gameModEnum = GameMode.horizontal; break;
                     case 'v': gameModEnum = GameMode.vertical; break;
                     case 'd': gameModEnum = GameMode.diagonal; break;
-                    default: Console.WriteLine("Not valid!"); break;
+                    default: Console.WriteLine("Not valid!"); continue;
                 }
                 switch (gameModEnum)
                 {
                     case GameMode.horizontal:
+                        Console.WriteLine("\t\t\tPlaying horizontal!");
                         while (true)
                         {
                             Console.WriteLine();
@@ -82,7 +77,6 @@ namespace SlotMachine
                             Console.Clear();
                             if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
                             {
-                                Console.WriteLine("\t\t\tPlaying horizontal!");
                                 break;
                             }
                             else
@@ -92,6 +86,7 @@ namespace SlotMachine
                         }
                         break;
                     case GameMode.vertical:
+                        Console.WriteLine("\t\t\tPlaying vertical!");
                         while (true)
                         {
                             Console.WriteLine();
@@ -100,7 +95,6 @@ namespace SlotMachine
                             Console.Clear();
                             if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
                             {
-                                Console.WriteLine("\t\t\tPlaying vertical!");
                                 break;
                             }
                             else
