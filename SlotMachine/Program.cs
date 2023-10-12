@@ -231,12 +231,8 @@ namespace SlotMachine
                     ConsoleKeyInfo userAnswer = Console.ReadKey();
                     char keepPlaying = (char)userAnswer.KeyChar;
                     autoPlay = (keepPlaying == 'y');
-                    if (keepPlaying == 'y')
-                    {
-                        autoPlay = true;
-                        Console.Clear();
-                    }
-                    else if (keepPlaying == 'n')
+                    Console.Clear();
+                    if (keepPlaying == 'n')
                     {
                         autoPlay = false;
                         Console.Clear();
