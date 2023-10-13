@@ -20,15 +20,15 @@ namespace SlotMachine
             Random rng = new Random();
             int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
             int lastColumnIndex = slotMachine.GetLength(1) - 1;
-            Console.WriteLine("\t\t\t=SLOT MACHINE=");
-            Console.WriteLine($"This is a {SLOT_MACHINE_ROWS} by {SLOT_MACHINE_COLUMNS} slot machine.");
-            Console.WriteLine("Insert credit amount then choose between three game types, Horizontal(H), Vertical(V) or Diagonal(D).");
-            Console.WriteLine($"Each round you will be asked to bet either {BET_ONE_LINE}, {BET_TWO_LINES} up to {SLOT_MACHINE_ROWS} lines.");
-            Console.WriteLine("Credit will be deducted from your balance proportionally with the number of lines you're playing, and " +
-                $"will be added back into your account in case of a win for each matching line (e.g.match {BET_TWO_LINES} then win ${BET_TWO_LINES})");
-            Console.WriteLine("Press any key to start!");
-            Console.ReadKey();
-            Console.Clear();
+            //Console.WriteLine("\t\t\t=SLOT MACHINE=");
+            //Console.WriteLine($"This is a {SLOT_MACHINE_ROWS} by {SLOT_MACHINE_COLUMNS} slot machine.");
+            //Console.WriteLine("Insert credit amount then choose between three game types, Horizontal(H), Vertical(V) or Diagonal(D).");
+            //Console.WriteLine($"Each round you will be asked to bet either {BET_ONE_LINE}, {BET_TWO_LINES} up to {SLOT_MACHINE_ROWS} lines.");
+            //Console.WriteLine("Credit will be deducted from your balance proportionally with the number of lines you're playing, and " +
+            //    $"will be added back into your account in case of a win for each matching line (e.g.match {BET_TWO_LINES} then win ${BET_TWO_LINES})");
+            //Console.WriteLine("Press any key to start!");
+            //Console.ReadKey();
+            //Console.Clear();
             int remainingCredit = 0;
             int userCredits = 0;
             int betAmount = 0;
@@ -51,10 +51,10 @@ namespace SlotMachine
                     Console.Clear();
                 }
                 GameMode gameModEnum = GameMode.horizontal;
-                    Console.WriteLine($"\t\t\t\t\tCredits: ${userCredits}");
-                    Console.Write("Choose game mode(h, v, d): ");
-                    ConsoleKeyInfo chooseMode = Console.ReadKey();
-                    userGameMode = chooseMode.KeyChar;
+                Console.WriteLine($"\t\t\t\t\tCredits: ${userCredits}");
+                Console.Write("Choose game mode(h, v, d): ");
+                ConsoleKeyInfo chooseMode = Console.ReadKey();
+                userGameMode = chooseMode.KeyChar;
                 Console.WriteLine();
                 Console.Clear();
                 //this will validate the user input
@@ -71,10 +71,9 @@ namespace SlotMachine
                         Console.WriteLine("\t\t\tPlaying horizontal!");
                         while (true)
                         {
-                            Console.WriteLine();
-                            Console.WriteLine($"How many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
-                            betAmount = Convert.ToInt32(Console.ReadLine());
+                            betAmount = CheckBetAmount(betAmount);
                             Console.Clear();
+
                             if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
                             {
                                 break;
@@ -89,9 +88,9 @@ namespace SlotMachine
                         Console.WriteLine("\t\t\tPlaying vertical!");
                         while (true)
                         {
-                            Console.WriteLine();
-                            Console.WriteLine($"How many lines would you like to play?({BET_ONE_LINE} to {SLOT_MACHINE_ROWS}): ");
-                            betAmount = Convert.ToInt32(Console.ReadLine());
+                            betAmount = CheckBetAmount(betAmount);
+                            Console.Clear();
+
                             Console.Clear();
                             if (betAmount >= BET_ONE_LINE && betAmount <= slotMachine.GetLength(0))
                             {
@@ -239,6 +238,17 @@ namespace SlotMachine
                     }
                 }
             }
+        }//main method
+
+        static int CheckBetAmount (int userInput)
+        {
+            Console.Write("How many lines would you like to play?: ");
+            int betAmount = Convert.ToInt32(Console.ReadLine());
+            return betAmount;
         }
+
     }
+
+    
+
 }
