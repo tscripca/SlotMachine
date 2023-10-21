@@ -72,10 +72,12 @@ namespace slotMachine2
                 {
                     case GameMode.horizontal:
                         Console.WriteLine("\t\t\tPlaying horizontal!");
+                        Console.WriteLine(AskTheUser());
                         betAmount = CheckBetAmount(lowerBetBound, upperBetBound);
                         break;
                     case GameMode.vertical:
                         Console.WriteLine("\t\t\tPlaying vertical!");
+                        Console.WriteLine(AskTheUser());
                         betAmount = CheckBetAmount(lowerBetBound, upperBetBound);
                         break;
                     case GameMode.diagonal:
@@ -215,10 +217,8 @@ namespace slotMachine2
                 }
             }
         }//main method
-
         static int CheckBetAmount(int lowerBetBound, int upperBetBound)
         {
-            Console.WriteLine("How many lines would you like to play?: ");
             int betAmount = Convert.ToInt32(Console.ReadLine());
             while (true)
             {
@@ -233,6 +233,12 @@ namespace slotMachine2
             }
             return betAmount;
 
+        }
+
+        static string AskTheUser()
+        {
+            string question = "How many lines would you like to play?: ";
+            return question;
         }
     }
 }
