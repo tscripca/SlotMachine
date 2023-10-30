@@ -22,7 +22,13 @@ namespace SlotMachine
             Console.ReadKey();
             Console.Clear();
         }
-        public static int ChooseGameMode(char userGameMode)
+
+        public static int DisplayCreditBalance()
+        {
+            Console.WriteLine($"\t\t\tCredit: {Program.remainingCredit}");
+            return Program.remainingCredit;
+        }
+        public static char ChooseGameMode(char userGameMode)
         {
             Console.WriteLine($"\t\t\t\t\tCredits: ${Program.userCredits}");
             Console.Write("Choose game mode(h, v, d): ");
@@ -35,8 +41,8 @@ namespace SlotMachine
         public static int HowManyLines(int betAmount)
         {
             Console.WriteLine("How many lines would you like to play?: ");
-            betAmount = Convert.ToInt32(Console.ReadLine());
-            return betAmount;
+            int userSelectLines = Convert.ToInt32(Console.ReadLine());
+            return userSelectLines;
         }       
         public static void CheckUserCreditBalance()
         {

@@ -21,18 +21,19 @@ namespace slotMachine
         public const int MINIMUM_FEE = 1;
         public static int userCredits = 0;
         public static bool autoPlay = true;
-        public static int betAmount = 0;
+        public static int remainingCredit = 0;
+
         public const int lowerBetBound = BET_ONE_DOLLAR;
         public static int upperBetBound = slotMachine.GetLength(0);
         static void Main(string[] args)
         {
             Random rng = new Random();            
             int lastColumnIndex = slotMachine.GetLength(1) - 1;            
-            int upperBetBound = slotMachine.GetLength(0);
-            int remainingCredit = 0;
+            int upperBetBound = slotMachine.GetLength(0);            
             char userGameMode = 'h';
-            
-        UIMethods.DisplayGameRules();
+            int betAmount = 0;
+
+            UIMethods.DisplayGameRules();
 
             while (autoPlay)
             {
@@ -50,8 +51,9 @@ namespace slotMachine
                     userCredits += remainingCredit;
                     Console.Clear();
                 }
+                UIMethods.DisplayCreditBalance();
                 GameMode gameModEnum = GameMode.horizontal;
-                UIMethods.ChooseGameMode(userGameMode);
+                userGameMode = UIMethods.ChooseGameMode(userGameMode);
                
                 //this will validate the user input
                 switch (userGameMode)
@@ -64,15 +66,15 @@ namespace slotMachine
                 switch (gameModEnum)
                 {
                     case GameMode.horizontal:
-                        UIMethods.HowManyLines(betAmount);
-                        LogicMethods.CheckBetAmount();
+                        betAmount = UIMethods.HowManyLines(betAmount);
+                        LogicMethods.CheckBetAmount(betAmount);
                         break;
                     case GameMode.vertical:
-                        
-                        userBetLines = LogicMethods.CheckBetAmount(lowerBetBound, upperBetBound);
+                        betAmount = UIMethods.HowManyLines(betAmount);
+                        LogicMethods.CheckBetAmount(betAmount);
                         break;
                     case GameMode.diagonal:
-                        int betAmount = BET_TWO_DOLLARS;
+                        betAmount = BET_TWO_DOLLARS;
                         Console.Clear();
                         while (true)
                         {
