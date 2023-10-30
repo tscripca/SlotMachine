@@ -12,6 +12,7 @@ namespace slotMachine
     }    
     public static class Program
     {
+        public static int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
         public const int SLOT_MACHINE_ROWS = 3;
         public const int SLOT_MACHINE_COLUMNS = 3;
         public const int UPPPER_BOUND = 10;
@@ -22,12 +23,11 @@ namespace slotMachine
         public static bool autoPlay = true;
         public static int betAmount = 0;
         public const int lowerBetBound = BET_ONE_DOLLAR;
+        public static int upperBetBound = slotMachine.GetLength(0);
         static void Main(string[] args)
         {
-            Random rng = new Random();
-            int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
-            int lastColumnIndex = slotMachine.GetLength(1) - 1;
-            
+            Random rng = new Random();            
+            int lastColumnIndex = slotMachine.GetLength(1) - 1;            
             int upperBetBound = slotMachine.GetLength(0);
             int remainingCredit = 0;
             char userGameMode = 'h';
