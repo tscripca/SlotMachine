@@ -1,35 +1,39 @@
-﻿using System;
+﻿using SlotMachine;
+using System;
+using System.Net.Security;
 
-namespace slotMachine2
+namespace slotMachine
 {
     enum GameMode
     {
         horizontal,
         vertical,
         diagonal
-    }
-    
-    internal class Program
+    }    
+    public static class Program
     {
-        private const int SLOT_MACHINE_ROWS = 3;
+        public const int SLOT_MACHINE_ROWS = 3;
+        public const int SLOT_MACHINE_COLUMNS = 3;
+        public const int UPPPER_BOUND = 10;
+        public const int BET_ONE_DOLLAR = 1;
+        public const int BET_TWO_DOLLARS = 2;
+        public const int MINIMUM_FEE = 1;
+        public static int userCredits = 0;
+        public static bool autoPlay = true;
+        public static int betAmount = 0;
+        public const int lowerBetBound = BET_ONE_DOLLAR;
         static void Main(string[] args)
         {
-            
-            const int SLOT_MACHINE_COLUMNS = 3;
-            const int UPPPER_BOUND = 10;
-            const int BET_ONE_DOLLAR = 1;
-            const int BET_TWO_DOLLARS = 2;
-            const int MINIMUM_FEE = 1;
             Random rng = new Random();
             int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
-            int lastColumnIndex = slotMachine.GetLength(1) - 1;            
-            int lowerBetBound = BET_ONE_DOLLAR;
+            int lastColumnIndex = slotMachine.GetLength(1) - 1;
+            
             int upperBetBound = slotMachine.GetLength(0);
             int remainingCredit = 0;
-            int userCredits = 0;
-            int betAmount = 0;
-            bool autoPlay = true;
             char userGameMode = 'h';
+            
+        UIMethods.DisplayGameRules();
+
             while (autoPlay)
             {
                 //program will come back here when no credit left or not enough to bet.
@@ -47,12 +51,8 @@ namespace slotMachine2
                     Console.Clear();
                 }
                 GameMode gameModEnum = GameMode.horizontal;
-                Console.WriteLine($"\t\t\t\t\tCredits: ${userCredits}");
-                Console.Write("Choose game mode(h, v, d): ");
-                ConsoleKeyInfo chooseMode = Console.ReadKey();
-                userGameMode = chooseMode.KeyChar;
-                Console.WriteLine();
-                Console.Clear();
+                UIMethods.ChooseGameMode(userGameMode);
+               
                 //this will validate the user input
                 switch (userGameMode)
                 {
@@ -64,21 +64,18 @@ namespace slotMachine2
                 switch (gameModEnum)
                 {
                     case GameMode.horizontal:
-                        Console.WriteLine("\t\t\tPlaying horizontal!");
-                        UIMethods.HowManyLines()  ;
-                        betAmount = LogicMethods.CheckBetAmount(lowerBetBound, upperBetBound);
+                        UIMethods.HowManyLines(betAmount);
+                        LogicMethods.CheckBetAmount();
                         break;
                     case GameMode.vertical:
-                        Console.WriteLine("\t\t\tPlaying vertical!");
-                        Console.WriteLine(HowManyLines());
-                        betAmount = CheckBetAmount(lowerBetBound, upperBetBound);
+                        
+                        userBetLines = LogicMethods.CheckBetAmount(lowerBetBound, upperBetBound);
                         break;
                     case GameMode.diagonal:
-                        betAmount = BET_TWO_DOLLARS;
+                        int betAmount = BET_TWO_DOLLARS;
                         Console.Clear();
                         while (true)
                         {
-                            Console.WriteLine("\t\t\tPlaying diagonals!");
                             break;
                         }
                         break;
@@ -193,20 +190,16 @@ namespace slotMachine2
                 }
                 Console.WriteLine($"\t\t\tYou've won ${winningRowCount} this round.");
                 userCredits = remainingCredit + winningRowCount;
+
                 //wait to reach zero credit then ask if the user wants to continue or stop playing.
-                if (userCredits == 0)
+                UIMethods.CheckUserCreditBalance();
+                if (UIMethods.MakeDecision() == true)
                 {
-                    Console.WriteLine("Your credit balance is $0.");
-                    Console.WriteLine("Keep playing? Y/N: ");
-                    ConsoleKeyInfo userAnswer = Console.ReadKey();
-                    char keepPlaying = (char)userAnswer.KeyChar;
-                    autoPlay = (keepPlaying == 'y');
-                    Console.Clear();
-                    if (keepPlaying == 'n')
-                    {
-                        autoPlay = false;
-                        Console.Clear();
-                    }
+                    autoPlay = true;
+                }
+                else
+                {
+                    break;
                 }
             }
         }//main method    
