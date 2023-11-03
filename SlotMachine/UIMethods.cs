@@ -9,7 +9,11 @@ using System.Threading.Tasks;
 namespace SlotMachine
 {
     public static class UIMethods
-    {
+    {        
+        public static void ChoiceNotValid()
+        {
+            Console.WriteLine("Selection not avaialable!Try again.");
+        }
         public static void DisplayGameRules()
         {
             Console.WriteLine("\t\t\t=SLOT MACHINE=");
@@ -21,16 +25,9 @@ namespace SlotMachine
             Console.WriteLine("Press any key to start!");
             Console.ReadKey();
             Console.Clear();
-        }
-
-        public static int DisplayCreditBalance()
-        {
-            Console.WriteLine($"\t\t\tCredit: {Program.remainingCredit}");
-            return Program.remainingCredit;
-        }
+        }        
         public static char ChooseGameMode(char userGameMode)
         {
-            Console.WriteLine($"\t\t\t\t\tCredits: ${Program.userCredits}");
             Console.Write("Choose game mode(h, v, d): ");
             ConsoleKeyInfo chooseMode = Console.ReadKey();
             userGameMode = chooseMode.KeyChar;
@@ -38,34 +35,53 @@ namespace SlotMachine
             Console.Clear();
             return userGameMode;
         }
-        public static int HowManyLines(int betAmount)
+        public static int CheckBetAmount(int betAmount)
         {
-            Console.WriteLine("How many lines would you like to play?: ");
-            int userSelectLines = Convert.ToInt32(Console.ReadLine());
-            return userSelectLines;
-        }       
-        public static void CheckUserCreditBalance()
-        {
-            if (Program.userCredits == 0)
+            bool validateUserChoice = false;
+            while (!validateUserChoice)
             {
-                Console.WriteLine("Your credit balance is $0.");
-                Console.WriteLine("Keep playing? Y/N: ");               
-            }           
-        }
-        public static bool MakeDecision()
-        {
-            if (Program.autoPlay)
-            {
-                ConsoleKeyInfo userAnswer = Console.ReadKey();
-                char keepPlaying = (char)userAnswer.KeyChar;
-                Program.autoPlay = (keepPlaying == 'y');
-                return true;
+                Console.WriteLine("How many lines would you like to play?: ");
+                betAmount = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+
+                if (betAmount >= Program.BET_ONE_DOLLAR && betAmount <= Program.SLOT_MACHINE_COLUMNS)
+                {
+                    validateUserChoice = true;
+                }
+                else
+                {
+                    validateUserChoice = false;
+                    UIMethods.ChoiceNotValid();
+                }
             }
-            else
-            {
-                return false;
-            }
+            return betAmount;
         }
-        
+
+        //public static int InsufficientBalance(int userCredits)
+        //{
+        //    if (userCredits == 0)
+        //    {
+        //        Console.WriteLine("Your credit balance is $0.");
+        //        Console.WriteLine("Keep playing? Y/N: ");
+        //        Console.WriteLine();
+        //        ConsoleKeyInfo userAnswer = Console.ReadKey();
+        //        char keepPlaying = (char)userAnswer.KeyChar;
+        //        while(keepPlaying == 'y' || keepPlaying == 'n')
+        //        {
+        //            if (keepPlaying == 'y')
+        //            {
+        //                userWantsToPlay;
+        //            }
+        //            if (keepPlaying == 'n')
+        //            {
+        //                !userWantsToPlay;
+        //            }
+        //            else
+        //            {
+        //                UIMethods.ChoiceNotValid();
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
