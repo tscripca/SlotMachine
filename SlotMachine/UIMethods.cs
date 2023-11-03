@@ -26,15 +26,7 @@ namespace SlotMachine
             Console.ReadKey();
             Console.Clear();
         }        
-        public static char ChooseGameMode(char userGameMode)
-        {
-            Console.Write("Choose game mode(h, v, d): ");
-            ConsoleKeyInfo chooseMode = Console.ReadKey();
-            userGameMode = chooseMode.KeyChar;
-            Console.WriteLine();
-            Console.Clear();
-            return userGameMode;
-        }
+        
         public static int CheckBetAmount(int betAmount)
         {
             bool validateUserChoice = false;

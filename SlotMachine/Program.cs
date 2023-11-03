@@ -2,14 +2,9 @@
 using System;
 using System.Net.Security;
 
-namespace slotMachine
+namespace SlotMachine
 {
-    enum GameMode
-    {
-        horizontal,
-        vertical,
-        diagonal
-    }    
+    
     public static class Program
     {        
         public const int SLOT_MACHINE_ROWS = 3;
@@ -59,7 +54,7 @@ namespace slotMachine
                     case 'h': gameModEnum = GameMode.horizontal; break;
                     case 'v': gameModEnum = GameMode.vertical; break;
                     case 'd': gameModEnum = GameMode.diagonal; break;
-                    default: Console.WriteLine("Not valid!"); continue;
+                    default: UIMethods.ChoiceNotValid(); break;
                 }
                 switch (gameModEnum)
                 {
