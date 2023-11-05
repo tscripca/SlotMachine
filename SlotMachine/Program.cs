@@ -1,25 +1,15 @@
 ﻿using SlotMachine;
 using System;
-using System.Net.Security;
 
 namespace SlotMachine
-{
-    
+{    
     public static class Program
-    {        
-        public const int SLOT_MACHINE_ROWS = 3;
-        public const int SLOT_MACHINE_COLUMNS = 3;
-        public const int UPPPER_BOUND = 10;
-        public const int BET_ONE_DOLLAR = 1;
-        public const int BET_TWO_DOLLARS = 2;
-        public const int MINIMUM_FEE = 1;
+    {
         static void Main(string[] args)
         {
-            int[,] slotMachine = new int[SLOT_MACHINE_ROWS, SLOT_MACHINE_COLUMNS];
-            Random rng = new Random();            
+            int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
+            Random rng = new Random();
             int lastColumnIndex = slotMachine.GetLength(1) - 1;
-            int lowerBetBound = BET_ONE_DOLLAR;
-            int upperBetBound = slotMachine.GetLength(0);            
             char userGameMode = 'h';
             int betAmount = 0;
             int userCredits = 0;
@@ -30,11 +20,10 @@ namespace SlotMachine
 
             while (userWantsToPlay)
             {
-                //program will come back here when no credit left or not enough to bet.
-                while (remainingCredit < MINIMUM_FEE)
+                //program will come back here when no credit left or not enough to bet. - minimum fee is $1.
+                while (remainingCredit < Constants.BET_ONE_DOLLAR)
                 {
-                    //I want to store my current credit even when there is not enough credit to play, and then add more credit on top of it,
-                    //so negative values are not allowed.                    
+                    //the program will stop taking money when there's not enough credit to bet, so negative values are not allowed.                    
                     if (remainingCredit < 0)
                     {
                         remainingCredit = userCredits;
@@ -46,32 +35,10 @@ namespace SlotMachine
                     Console.WriteLine($"\t\t\t\tCredit balance: {userCredits}");
                 }
                 GameMode gameModEnum = GameMode.horizontal;
-                userGameMode = UIMethods.ChooseGameMode(userGameMode);
-               
+                UIMethods.ChooseGameMode(userGameMode);
+
                 //this will validate the user input
-                switch (userGameMode)
-                {
-                    case 'h': gameModEnum = GameMode.horizontal; break;
-                    case 'v': gameModEnum = GameMode.vertical; break;
-                    case 'd': gameModEnum = GameMode.diagonal; break;
-                    default: UIMethods.ChoiceNotValid(); break;
-                }
-                switch (gameModEnum)
-                {
-                    case GameMode.horizontal:
-                        betAmount = UIMethods.CheckBetAmount(betAmount);
-                        break;
-                    case GameMode.vertical:
-                        betAmount = UIMethods.CheckBetAmount(betAmount);
-                        break;
-                    case GameMode.diagonal:
-                        betAmount = betAmount = BET_TWO_DOLLARS;
-                        Console.Clear();                        
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice.");
-                        break;
-                }
+
                 remainingCredit = userCredits - betAmount;
                 //I need to check if user can afford to play the desired number of lines.
                 if (betAmount > userCredits)
@@ -84,7 +51,7 @@ namespace SlotMachine
                 {
                     for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
                     {
-                        rndNum = rng.Next(0, UPPPER_BOUND);
+                        rndNum = rng.Next(0, Constants.UPPPER_BOUND);
                         slotMachine[rowIndex, columnIndex] = rndNum;
                         Console.Write(rndNum + " ");
                     }
@@ -190,7 +157,7 @@ namespace SlotMachine
                     char keepPlaying = (char)userAnswer.KeyChar;
                     Console.WriteLine();
                     userWantsToPlay = (keepPlaying == 'y');
-                }                
+                }
             }
         }//main method    
     }
