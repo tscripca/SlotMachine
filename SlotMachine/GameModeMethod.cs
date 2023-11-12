@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SlotMachine
 {
     public enum GameMode
-    {
+    { 
         horizontal,
         vertical,
         diagonal

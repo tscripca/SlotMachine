@@ -8,9 +8,10 @@ namespace SlotMachine
         static void Main(string[] args)
         {
             int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
+            
             Random rng = new Random();
             int lastColumnIndex = slotMachine.GetLength(1) - 1;
-            char userGameMode = 'h';
+            //char userGameMode = 'h';
             int betAmount = 0;
             int userCredits = 0;
             bool userWantsToPlay = true;
@@ -34,11 +35,9 @@ namespace SlotMachine
                     Console.Clear();
                     Console.WriteLine($"\t\t\t\tCredit balance: {userCredits}");
                 }
-                GameMode gameModEnum = GameMode.horizontal;
-                UIMethods.ChooseGameMode(userGameMode);
 
-                //this will validate the user input
-
+                GameMode gameModEnum = UIMethods.ChooseGameMode();
+                
                 remainingCredit = userCredits - betAmount;
                 //I need to check if user can afford to play the desired number of lines.
                 if (betAmount > userCredits)
@@ -58,6 +57,7 @@ namespace SlotMachine
                     Console.WriteLine();
                 }
                 int winningRowCount = 0;
+
                 if (gameModEnum == GameMode.horizontal)
                 {
                     for (int rowIndex = 0; rowIndex < betAmount; rowIndex++)
@@ -157,8 +157,9 @@ namespace SlotMachine
                     char keepPlaying = (char)userAnswer.KeyChar;
                     Console.WriteLine();
                     userWantsToPlay = (keepPlaying == 'y');
+                    Console.Clear();
                 }
             }
-        }//main method    
+        }    
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+
 namespace SlotMachine
 {
     public static class UIMethods
@@ -25,34 +26,11 @@ namespace SlotMachine
             Console.ReadKey();
             Console.Clear();
         }
-        public static int CheckBetAmount(int betAmount)
+       
+        public static GameMode ChooseGameMode()
         {
-            int lowerBetBound = Constants.BET_ONE_DOLLAR;
-            int upperBetBound = Constants.SLOT_MACHINE_COLUMNS;
-            bool validateUserChoice = false;
-
-            while (!validateUserChoice)
-            {
-                Console.WriteLine("How many lines would you like to play?: ");
-                int userBetLines = Convert.ToInt32(Console.ReadLine());
-                Console.Clear();
-                if (userBetLines >= lowerBetBound && userBetLines <= upperBetBound)
-                {
-                    validateUserChoice = true;
-                }
-                else
-                {
-                    validateUserChoice = false;
-                    UIMethods.ChoiceNotValid();
-                }
-            }
-            return betAmount;
-        }
-        public static int ChooseGameMode(int betAmount)
-        {
-            GameMode gameModEnum = GameMode.horizontal;
             Console.WriteLine("Choose game mode: ");
-            char userGameMode = Convert.ToChar(Console.ReadLine());
+            char userGameMode = Convert.ToChar(Console.ReadLine());  
             switch (userGameMode)
             {
                 case 'h': gameModEnum = GameMode.horizontal; break;
@@ -60,24 +38,7 @@ namespace SlotMachine
                 case 'd': gameModEnum = GameMode.diagonal; break;
                 default: UIMethods.ChoiceNotValid(); break;
             }
-            switch (gameModEnum)
-            {
-                case GameMode.horizontal:
-                    UIMethods.CheckBetAmount();    
-                    break;
-                case GameMode.vertical:
-                    UIMethods.CheckBetAmount();
-                    break;
-                case GameMode.diagonal:
-                    betAmount = Constants.BET_TWO_DOLLARS;
-                    Console.Clear();
-                    break;
-                default:
-                    Console.WriteLine("Invalid choice.");
-                    break;
-            }
-            return betAmount;
+            return (GameMode)gameModeEnum;
         }
-            
     }
 }
