@@ -1,5 +1,5 @@
-﻿using System;
-using SlotMachine;
+﻿using SlotMachine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +9,9 @@ namespace SlotMachine
 {
     public enum GameMode
     { 
+        //INVALID,
         horizontal,
         vertical,
-        diagonal
+        diagonal,
     }
 }

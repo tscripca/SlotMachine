@@ -25,10 +25,10 @@ namespace SlotMachine
             Console.WriteLine("Press any key to start!");
             Console.ReadKey();
             Console.Clear();
-        }
-       
+        }       
         public static GameMode ChooseGameMode()
         {
+            GameMode gameModEnum = GameMode.horizontal;
             Console.WriteLine("Choose game mode: ");
             char userGameMode = Convert.ToChar(Console.ReadLine());  
             switch (userGameMode)
@@ -38,7 +38,33 @@ namespace SlotMachine
                 case 'd': gameModEnum = GameMode.diagonal; break;
                 default: UIMethods.ChoiceNotValid(); break;
             }
-            return (GameMode)gameModeEnum;
+            return (GameMode)gameModEnum;
+        }
+
+        //assign a variable to the game mode that user selected
+        public static int HowMuchUserIsBetting(//use that variable as parameter for the method)
+        {
+            switch (//use the variable inside the switch)
+            {
+                case GameMode.horizontal:
+                    Console.WriteLine("How many lines would you like to play?: ");
+                    betAmount = Convert.ToInt32(Console.ReadLine());
+                    Console.Clear();
+                    break;
+                case GameMode.vertical:
+                    Console.WriteLine("How many lines would you like to play?: ");
+                    betAmount = Convert.ToInt32(Console.ReadLine());
+                    Console.Clear();
+                    break;
+                case GameMode.diagonal:
+                    betAmount = Constants.BET_TWO_DOLLARS;
+                    Console.Clear();
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+            return betAmount;//return the betAmount so that the program can check for winning combinations.
         }
     }
 }

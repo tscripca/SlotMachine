@@ -4,12 +4,12 @@ using System;
 namespace SlotMachine
 {    
     public static class Program
-    {
+    {       
         static void Main(string[] args)
         {
             int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
             
-            Random rng = new Random();
+            //Random rng = new Random();
             int lastColumnIndex = slotMachine.GetLength(1) - 1;
             //char userGameMode = 'h';
             int betAmount = 0;
@@ -37,6 +37,7 @@ namespace SlotMachine
                 }
 
                 GameMode gameModEnum = UIMethods.ChooseGameMode();
+                betAmount = UIMethods.HowMuchUserIsBetting(betAmount);
                 
                 remainingCredit = userCredits - betAmount;
                 //I need to check if user can afford to play the desired number of lines.
@@ -45,7 +46,9 @@ namespace SlotMachine
                     Console.WriteLine("Not enough credit!");
                     continue;
                 }
+                Random rng = new Random();
                 int rndNum = 0;
+                //grid generator
                 for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
                 {
                     for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
@@ -57,25 +60,9 @@ namespace SlotMachine
                     Console.WriteLine();
                 }
                 int winningRowCount = 0;
-
                 if (gameModEnum == GameMode.horizontal)
                 {
-                    for (int rowIndex = 0; rowIndex < betAmount; rowIndex++)
-                    {
-                        bool numbersMatch = true;
-                        for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
-                        {
-                            if (slotMachine[rowIndex, 0] != slotMachine[rowIndex, columnIndex])
-                            {
-                                numbersMatch = false;
-                                break;
-                            }
-                        }
-                        if (numbersMatch)
-                        {
-                            winningRowCount++;
-                        }
-                    }
+                    LogicMethods.CheckHorizontalWin(betAmount, slotMachine);                    
                 }
                 if (gameModEnum == GameMode.vertical)
                 {
