@@ -9,7 +9,7 @@ namespace SlotMachine
         {
             int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
             
-            //Random rng = new Random();
+            Random rng = new Random();
             int lastColumnIndex = slotMachine.GetLength(1) - 1;
             //char userGameMode = 'h';
             int betAmount = 0;
@@ -36,7 +36,7 @@ namespace SlotMachine
                     Console.WriteLine($"\t\t\t\tCredit balance: {userCredits}");
                 }
 
-                GameMode gameModEnum = UIMethods.ChooseGameMode();
+                GameMode gameModeEnum = UIMethods.ChooseGameMode();
                 betAmount = UIMethods.HowMuchUserIsBetting(betAmount);
                 
                 remainingCredit = userCredits - betAmount;
@@ -46,7 +46,6 @@ namespace SlotMachine
                     Console.WriteLine("Not enough credit!");
                     continue;
                 }
-                Random rng = new Random();
                 int rndNum = 0;
                 //grid generator
                 for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
@@ -60,11 +59,26 @@ namespace SlotMachine
                     Console.WriteLine();
                 }
                 int winningRowCount = 0;
-                if (gameModEnum == GameMode.horizontal)
+                if (gameModeEnum == GameMode.horizontal)
                 {
-                    LogicMethods.CheckHorizontalWin(betAmount, slotMachine);                    
+                    for (int rowIndex = 0; rowIndex < betAmount; rowIndex++)
+                    {
+                        bool numbersMatch = true;
+                        for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
+                        {
+                            if (slotMachine[rowIndex, 0] != slotMachine[rowIndex, columnIndex])
+                            {
+                                numbersMatch = false;
+                                break;
+                            }
+                        }
+                        if (numbersMatch)
+                        {
+                            winningRowCount++;
+                        }
+                    }
                 }
-                if (gameModEnum == GameMode.vertical)
+                if (gameModeEnum == GameMode.vertical)
                 {
                     for (int columnIndex = 0; columnIndex < betAmount; columnIndex++)
                     {
@@ -83,7 +97,7 @@ namespace SlotMachine
                         }
                     }
                 }
-                if (gameModEnum == GameMode.diagonal)
+                if (gameModeEnum == GameMode.diagonal)
                 {
                     int matchingDiagonalNumbers = 0;
                     //checking the 1st diagonal

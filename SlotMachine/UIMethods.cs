@@ -10,6 +10,7 @@ namespace SlotMachine
 {
     public static class UIMethods
     {
+        private static GameMode gameModeEnum;
         public static void ChoiceNotValid()
         {
             Console.WriteLine("Selection not avaialable!Try again.");
@@ -28,43 +29,42 @@ namespace SlotMachine
         }       
         public static GameMode ChooseGameMode()
         {
-            GameMode gameModEnum = GameMode.horizontal;
+            GameMode gameModeEnum = GameMode.horizontal;
             Console.WriteLine("Choose game mode: ");
             char userGameMode = Convert.ToChar(Console.ReadLine());  
             switch (userGameMode)
             {
-                case 'h': gameModEnum = GameMode.horizontal; break;
-                case 'v': gameModEnum = GameMode.vertical; break;
-                case 'd': gameModEnum = GameMode.diagonal; break;
+                case 'h': gameModeEnum = GameMode.horizontal; break;
+                case 'v': gameModeEnum = GameMode.vertical; break;
+                case 'd': gameModeEnum = GameMode.diagonal; break;
                 default: UIMethods.ChoiceNotValid(); break;
             }
-            return (GameMode)gameModEnum;
-        }
-
-        //assign a variable to the game mode that user selected
-        public static int HowMuchUserIsBetting(//use that variable as parameter for the method)
+            return (GameMode)gameModeEnum;
+        }        
+        
+        public static int HowMuchUserIsBetting(int linesToBet)
         {
-            switch (//use the variable inside the switch)
+            switch ((GameMode)gameModeEnum)
             {
                 case GameMode.horizontal:
                     Console.WriteLine("How many lines would you like to play?: ");
-                    betAmount = Convert.ToInt32(Console.ReadLine());
+                    linesToBet = Convert.ToInt32(Console.ReadLine());
                     Console.Clear();
                     break;
                 case GameMode.vertical:
                     Console.WriteLine("How many lines would you like to play?: ");
-                    betAmount = Convert.ToInt32(Console.ReadLine());
+                    linesToBet = Convert.ToInt32(Console.ReadLine());
                     Console.Clear();
                     break;
                 case GameMode.diagonal:
-                    betAmount = Constants.BET_TWO_DOLLARS;
+                    linesToBet = Constants.BET_TWO_DOLLARS;
                     Console.Clear();
                     break;
                 default:
                     Console.WriteLine("Invalid choice.");
                     break;
             }
-            return betAmount;//return the betAmount so that the program can check for winning combinations.
+            return linesToBet;
         }
     }
 }
