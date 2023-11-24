@@ -37,7 +37,7 @@ namespace SlotMachine
                 case 'h': gameModeEnum = GameMode.horizontal; break;
                 case 'v': gameModeEnum = GameMode.vertical; break;
                 case 'd': gameModeEnum = GameMode.diagonal; break;
-                default: Console.WriteLine("Selection not avaialable!Try again.");break;
+                default: Console.WriteLine("Selection not avaialable!Try again.");break; 
             }
             return (GameMode)gameModeEnum;
         }
