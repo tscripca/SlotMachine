@@ -11,13 +11,12 @@ namespace SlotMachine
             
             Random rng = new Random();
             int lastColumnIndex = slotMachine.GetLength(1) - 1;
-            //char userGameMode = 'h';
             int betAmount = 0;
             int userCredits = 0;
             bool userWantsToPlay = true;
             int remainingCredit = 0;
 
-            UIMethods.DisplayGameRules();
+            //UIMethods.DisplayGameRules();
 
             while (userWantsToPlay)
             {
@@ -36,8 +35,8 @@ namespace SlotMachine
                     Console.WriteLine($"\t\t\t\tCredit balance: {userCredits}");
                 }
 
-                GameMode gameModeEnum = UIMethods.ChooseGameMode();
-                betAmount = UIMethods.HowMuchUserIsBetting(betAmount);
+                GameMode gameModeEnum = UIMethods.ChooseGameMode();  
+                betAmount = UIMethods.GetBetAmount();
                 
                 remainingCredit = userCredits - betAmount;
                 //I need to check if user can afford to play the desired number of lines.
@@ -61,90 +60,17 @@ namespace SlotMachine
                 int winningRowCount = 0;
                 if (gameModeEnum == GameMode.horizontal)
                 {
-                    for (int rowIndex = 0; rowIndex < betAmount; rowIndex++)
-                    {
-                        bool numbersMatch = true;
-                        for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
-                        {
-                            if (slotMachine[rowIndex, 0] != slotMachine[rowIndex, columnIndex])
-                            {
-                                numbersMatch = false;
-                                break;
-                            }
-                        }
-                        if (numbersMatch)
-                        {
-                            winningRowCount++;
-                        }
-                    }
+                    LogicMethods.CheckHorizontalWin(betAmount, slotMachine);                   
                 }
                 if (gameModeEnum == GameMode.vertical)
                 {
-                    for (int columnIndex = 0; columnIndex < betAmount; columnIndex++)
-                    {
-                        bool numbersMatch = true;
-                        for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
-                        {
-                            if (slotMachine[0, columnIndex] != slotMachine[rowIndex, columnIndex])
-                            {
-                                numbersMatch = false;
-                                break;
-                            }
-                        }
-                        if (numbersMatch)
-                        {
-                            winningRowCount++;
-                        }
-                    }
+                    LogicMethods.CheckVerticalWin(betAmount, slotMachine);                    
                 }
                 if (gameModeEnum == GameMode.diagonal)
                 {
-                    int matchingDiagonalNumbers = 0;
-                    //checking the 1st diagonal
-                    for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
-                    {
-                        bool numbersMatch = true;
-                        for (int columnIndex = rowIndex; columnIndex <= rowIndex; columnIndex++)
-                        {
-                            if (slotMachine[0, 0] != slotMachine[rowIndex, columnIndex])
-                            {
-                                numbersMatch = false;
-                                break;
-                            }
-                        }
-                        if (numbersMatch)
-                        {
-                            matchingDiagonalNumbers++;
-                        }
-                    }
-                    if (matchingDiagonalNumbers >= slotMachine.GetLength(1))
-                    {
-                        winningRowCount++;
-                    }
-                    matchingDiagonalNumbers = 0;
-                    //checking 2nd diagonal
-                    for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
-                    {
-                        bool numbersMatch = true;
-                        int randomValue = 0;
-                        for (int columnIndex = lastColumnIndex - rowIndex; columnIndex >= randomValue; columnIndex--)
-                        {
-                            if (slotMachine[0, lastColumnIndex] != slotMachine[rowIndex, columnIndex])
-                            {
-                                numbersMatch = false;
-                            }
-                            randomValue = slotMachine.GetLength(1);
-                        }
-                        if (numbersMatch)
-                        {
-                            matchingDiagonalNumbers++;
-                        }
-                    }
-                    if (matchingDiagonalNumbers >= slotMachine.GetLength(1))
-                    {
-                        winningRowCount++;
-                    }
+                    LogicMethods.CheckDiagonalWin(betAmount, slotMachine);                    
                 }
+
                 Console.WriteLine($"\t\t\tYou've won ${winningRowCount} this round.");
                 userCredits = remainingCredit + winningRowCount;
                 Console.WriteLine($"\t\t\t\tCredit balance: {userCredits}");
