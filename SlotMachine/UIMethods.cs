@@ -1,4 +1,5 @@
-﻿using SlotMachine;
+﻿using Microsoft.VisualBasic;
+using SlotMachine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,41 +25,55 @@ namespace SlotMachine
         }
         public static GameMode ChooseGameMode()
         {
-            Console.WriteLine("Choose game mode: ");
-            ConsoleKeyInfo userAnswer = Console.ReadKey();
-            char userGameMode = userAnswer.KeyChar;
-            Console.Clear();
-            Console.WriteLine();
+            GameMode gameModeEnum = GameMode.invalid;
 
-            GameMode gameModeEnum = GameMode.horizontal;
-
-            switch (userGameMode)
+            while (gameModeEnum == GameMode.invalid)
             {
-                case 'h': gameModeEnum = GameMode.horizontal; break;
-                case 'v': gameModeEnum = GameMode.vertical; break;
-                case 'd': gameModeEnum = GameMode.diagonal; break;
-                default: Console.WriteLine("Invalid choice!"); break;
+                Console.WriteLine("Choose game mode: (h, v, d)");
+                ConsoleKeyInfo userAnswer = Console.ReadKey();
+                char userGameMode = userAnswer.KeyChar;
+                Console.Clear();
+                Console.WriteLine();
+                switch (userGameMode)
+                {
+                    case 'h': gameModeEnum = GameMode.horizontal; break;
+                    case 'v': gameModeEnum = GameMode.vertical; break;
+                    case 'd': gameModeEnum = GameMode.diagonal; break;
+                    default: gameModeEnum = GameMode.invalid;
+                        Console.WriteLine("Selection not available!"); break;
+                }
             }
             return (GameMode)gameModeEnum;
         }
         public static int SetBetAmount(GameMode chosenMode)
         {
             int betAmount = 0;
-
+            bool betAmountPass = false;
+                       
             switch (chosenMode)
             {
                 case GameMode.horizontal:
                 case GameMode.vertical:
-                    Console.WriteLine("How many lines would you like to play?: ");
-                    ConsoleKeyInfo getAnswer = Console.ReadKey();
-                    betAmount = int.Parse(getAnswer.KeyChar.ToString());
-                    Console.Clear();
+                    while(!betAmountPass)
+                    {
+                        Console.WriteLine($"How many lines would you like to play?: ({Constants.BET_ONE_DOLLAR} to {Constants.SLOT_MACHINE_ROWS})");                                                              
+                        ConsoleKeyInfo getAnswer = Console.ReadKey();
+                        betAmount = int.Parse(getAnswer.KeyChar.ToString());
+                        Console.Clear();
+
+                        if (betAmount >= Constants.BET_ONE_DOLLAR && betAmount <= Constants.SLOT_MACHINE_ROWS)
+                        {
+                            betAmountPass = true;
+                        }
+                        else
+                        {
+                            betAmountPass = false;
+                            Console.WriteLine("Selection not available");
+                        }
+                    }                    
                     break;
                 case GameMode.diagonal:
                     betAmount = Constants.BET_TWO_DOLLARS;
-                    break;
-                default:
-                    Console.WriteLine("Invalid choice.");
                     break;
             }
             return betAmount;

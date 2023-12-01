@@ -51,7 +51,7 @@ namespace SlotMachine
             }
             return winningRowCount++;
         }
-        public static int CheckDiagonalWin(int betAmount, int[,] slotMachine)
+        public static int CheckDiagonalWin(int[,] slotMachine)
         {
             int lastColumnIndex = Constants.SLOT_MACHINE_COLUMNS - 1;
             int winningRowCount = 0;

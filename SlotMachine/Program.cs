@@ -9,9 +9,7 @@ namespace SlotMachine
         {
             int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
             
-            Random rng = new Random();
-            int lastColumnIndex = slotMachine.GetLength(1) - 1;
-            int betAmount = 0;
+            Random rng = new Random();           
             int userCredits = 0;
             bool userWantsToPlay = true;
             int remainingCredit = 0;
@@ -28,15 +26,15 @@ namespace SlotMachine
                     {
                         remainingCredit = userCredits;
                     }
-                    Console.Write("Insert credit: ");
+                    Console.Write("Insert credit: $");
                     remainingCredit = Convert.ToInt32(Console.ReadLine());
                     userCredits += remainingCredit;
                     Console.Clear();
-                    Console.WriteLine($"\t\t\t\tCredit balance: {userCredits}");
+                    Console.WriteLine($"\t\t\t\tCredit balance: ${userCredits}");
                 }
 
                 GameMode gameModeEnum = UIMethods.ChooseGameMode();
-                betAmount = UIMethods.SetBetAmount(gameModeEnum);
+                int betAmount = UIMethods.SetBetAmount(gameModeEnum);
                 
                 remainingCredit = userCredits - betAmount;
                 //I need to check if user can afford to play the desired number of lines.
@@ -68,7 +66,7 @@ namespace SlotMachine
                 }
                 if (gameModeEnum == GameMode.diagonal)
                 {
-                    LogicMethods.CheckDiagonalWin(betAmount, slotMachine);                    
+                    LogicMethods.CheckDiagonalWin(slotMachine);                    
                 }
 
                 Console.WriteLine($"\t\t\tYou've won ${winningRowCount} this round.");
