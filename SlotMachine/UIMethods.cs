@@ -35,6 +35,7 @@ namespace SlotMachine
             GetKey();
             ClearScreen();
         }
+        //both "ChooseGameMode()" and "SetBetamount()" methods contain user input validation.
         public static GameMode ChooseGameMode()
         {
             GameMode gameModeEnum = GameMode.invalid;
