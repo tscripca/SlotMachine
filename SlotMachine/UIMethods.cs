@@ -48,13 +48,10 @@ namespace SlotMachine
             switch (chosenMode)
             {
                 case GameMode.horizontal:
-                    Console.WriteLine("How many lines would you like to play?: ");
-                    betAmount = Convert.ToInt32(Console.ReadLine());
-                    Console.Clear();
-                    break;
                 case GameMode.vertical:
                     Console.WriteLine("How many lines would you like to play?: ");
-                    betAmount = Convert.ToInt32(Console.ReadLine());
+                    ConsoleKeyInfo getAnswer = Console.ReadKey();
+                    betAmount = int.Parse(getAnswer.KeyChar.ToString());
                     Console.Clear();
                     break;
                 case GameMode.diagonal:
