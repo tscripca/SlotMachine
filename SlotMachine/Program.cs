@@ -35,8 +35,8 @@ namespace SlotMachine
                     Console.WriteLine($"\t\t\t\tCredit balance: {userCredits}");
                 }
 
-                GameMode gameModeEnum = UIMethods.ChooseGameMode();  
-                betAmount = UIMethods.GetBetAmount();
+                GameMode gameModeEnum = UIMethods.ChooseGameMode();
+                betAmount = UIMethods.SetBetAmount(gameModeEnum);
                 
                 remainingCredit = userCredits - betAmount;
                 //I need to check if user can afford to play the desired number of lines.

@@ -9,9 +9,8 @@ namespace SlotMachine
 {
     public enum GameMode
     { 
-        //INVALID,
         horizontal,
         vertical,
-        diagonal,
+        diagonal
     }
 }

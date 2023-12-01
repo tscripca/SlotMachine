@@ -24,49 +24,47 @@ namespace SlotMachine
         }
         public static GameMode ChooseGameMode()
         {
-            char userchoice = ' ';
-            
+            Console.WriteLine("Choose game mode: ");
+            ConsoleKeyInfo userAnswer = Console.ReadKey();
+            char userGameMode = userAnswer.KeyChar;
+            Console.Clear();
+            Console.WriteLine();
+
             GameMode gameModeEnum = GameMode.horizontal;
 
-            bool success = char.TryParse(userchoice, out );
-
-            Console.WriteLine("Choose game mode: ");
-            char userGameMode = Convert.ToChar(Console.ReadLine());
             switch (userGameMode)
             {
                 case 'h': gameModeEnum = GameMode.horizontal; break;
                 case 'v': gameModeEnum = GameMode.vertical; break;
                 case 'd': gameModeEnum = GameMode.diagonal; break;
-                default: Console.WriteLine("Selection not avaialable!Try again.");break; 
+                default: Console.WriteLine("Invalid choice!"); break;
             }
             return (GameMode)gameModeEnum;
         }
-    }
-    //returns betAmount into the main program
-    public static int GetBetAmount()
-    {
-
-        int betAmount = 0;
-        switch (userMode)
+        public static int SetBetAmount(GameMode chosenMode)
         {
-            case (char)GameMode.horizontal:
-                Console.WriteLine("How many lines would you like to play?: ");
-                betAmount = Convert.ToInt32(Console.ReadLine());
-                Console.Clear();
-                break;
-            case (char)GameMode.vertical:
-                Console.WriteLine("How many lines would you like to play?: ");
-                betAmount = Convert.ToInt32(Console.ReadLine());
-                Console.Clear();
-                break;
-            case (char)GameMode.diagonal:
-                betAmount = Constants.BET_TWO_DOLLARS;
-                Console.Clear();
-                break;
-            default:
-                Console.WriteLine("Invalid choice.");
-                break;
+            int betAmount = 0;
+
+            switch (chosenMode)
+            {
+                case GameMode.horizontal:
+                    Console.WriteLine("How many lines would you like to play?: ");
+                    betAmount = Convert.ToInt32(Console.ReadLine());
+                    Console.Clear();
+                    break;
+                case GameMode.vertical:
+                    Console.WriteLine("How many lines would you like to play?: ");
+                    betAmount = Convert.ToInt32(Console.ReadLine());
+                    Console.Clear();
+                    break;
+                case GameMode.diagonal:
+                    betAmount = Constants.BET_TWO_DOLLARS;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+            return betAmount;
         }
-        return betAmount;
     }
 }
