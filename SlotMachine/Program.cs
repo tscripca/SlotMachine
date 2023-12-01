@@ -14,7 +14,7 @@ namespace SlotMachine
             bool userWantsToPlay = true;
             int remainingCredit = 0;
 
-            //UIMethods.DisplayGameRules();
+            UIMethods.DisplayGameRules();
 
             while (userWantsToPlay)
             {
@@ -29,7 +29,7 @@ namespace SlotMachine
                     Console.Write("Insert credit: $");
                     remainingCredit = Convert.ToInt32(Console.ReadLine());
                     userCredits += remainingCredit;
-                    Console.Clear();
+                    UIMethods.ClearScreen();
                     Console.WriteLine($"\t\t\t\tCredit balance: ${userCredits}");
                 }
 
@@ -53,7 +53,7 @@ namespace SlotMachine
                         slotMachine[rowIndex, columnIndex] = rndNum;
                         Console.Write(rndNum + " ");
                     }
-                    Console.WriteLine();
+                    UIMethods.AddEmptyLine();
                 }
                 int winningRowCount = 0;
                 if (gameModeEnum == GameMode.horizontal)
@@ -80,9 +80,9 @@ namespace SlotMachine
                     Console.WriteLine("Keep playing? Y/N: ");
                     ConsoleKeyInfo userAnswer = Console.ReadKey();
                     char keepPlaying = (char)userAnswer.KeyChar;
-                    Console.WriteLine();
+                    UIMethods.AddEmptyLine();
                     userWantsToPlay = (keepPlaying == 'y');
-                    Console.Clear();
+                    UIMethods.ClearScreen();
                 }
             }
         }    
