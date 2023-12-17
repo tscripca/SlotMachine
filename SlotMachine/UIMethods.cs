@@ -23,6 +23,31 @@ namespace SlotMachine
         {
             Console.ReadKey();
         }
+        public static void NotEnoughCredit()
+        {
+            Console.WriteLine("Not enough credit to play!");
+        }
+        public static int DisplayCreditBalance(int creditValue)
+        {
+            Console.WriteLine($"\t\t\t\tCredit balance: {creditValue}");
+            return creditValue;
+        }        
+        public static int GetWin(int linesMatch)
+        {
+            Console.WriteLine($"You've won ${linesMatch} this round.");
+            return linesMatch;
+        }
+        public static int PrintBalanceAfterBet(int userMoney, int linesToBet)
+        {
+            int creditToDisplay = userMoney - linesToBet;
+            Console.WriteLine($"\t\t\tCredit balance: {creditToDisplay}");
+            return creditToDisplay;
+        }
+        public static int PrintBalanceAfterRound(int moneyLeft, int linesMatch)
+        {
+            int totalWin = moneyLeft + linesMatch;
+            return totalWin;
+        }
         public static void DisplayGameRules()
         {
             Console.WriteLine("\t\t\t=SLOT MACHINE=");
@@ -90,6 +115,6 @@ namespace SlotMachine
                     break;
             }
             return betAmount;
-        }
+        } 
     }
 }

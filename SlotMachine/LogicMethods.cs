@@ -101,6 +101,6 @@ namespace SlotMachine
                 winningRowCount++;
             }
             return winningRowCount++;
-        }
+        }                
     }
 }
