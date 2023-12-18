@@ -37,10 +37,9 @@ namespace SlotMachine
             Console.WriteLine($"You've won ${linesMatch} this round.");
             return linesMatch;
         }
-        public static int PrintBalanceAfterBet(int userMoney, int linesToBet)
+        public static int MoneyCounter(int userMoney, int linesToBet)
         {
             int creditToDisplay = userMoney - linesToBet;
-            Console.WriteLine($"\t\t\tCredit balance: {creditToDisplay}");
             return creditToDisplay;
         }
         public static int PrintBalanceAfterRound(int moneyLeft, int linesMatch)

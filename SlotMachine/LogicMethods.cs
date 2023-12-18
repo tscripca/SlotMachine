@@ -102,5 +102,23 @@ namespace SlotMachine
             }
             return winningRowCount++;
         }                
+        
+        public static int GridGenerator()
+        {
+            int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
+            Random rng = new Random();
+            int rndNum = 0;
+            for (int rowIndex = 0; rowIndex < Constants.SLOT_MACHINE_ROWS; rowIndex++)
+            {
+                for (int columnIndex = 0; columnIndex < Constants.SLOT_MACHINE_COLUMNS; columnIndex++)
+                {
+                    rndNum = rng.Next(0, Constants.UPPPER_BOUND);
+                    slotMachine[rowIndex, columnIndex] = rndNum;
+                    Console.Write(rndNum + " ");
+                }
+                UIMethods.AddEmptyLine();
+            }
+            return rndNum;
+        }
     }
 }
