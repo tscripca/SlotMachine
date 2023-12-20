@@ -7,7 +7,7 @@ namespace SlotMachine
         static void Main(string[] args)
         {
             int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
-
+            Random rng = new Random();
             int moneyWon = 0;
             int userCredits = 0;
             int remainingCredits = 0;
@@ -40,9 +40,18 @@ namespace SlotMachine
                     continue;
                 }
                 UIMethods.DisplayCreditBalance(remainingCredits);
-
                 //grid generator
-                LogicMethods.GridGenerator();
+                int rndNum = 0;
+                for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
+                {
+                    for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
+                    {
+                        rndNum = rng.Next(0, Constants.UPPPER_BOUND);
+                        slotMachine[rowIndex, columnIndex] = rndNum;
+                        Console.Write(rndNum + " ");
+                    }
+                    UIMethods.AddEmptyLine();
+                }
                 int winningRowCount = 0;
                 if (gameModeEnum == GameMode.horizontal)
                 {
@@ -60,7 +69,7 @@ namespace SlotMachine
                 moneyWon = UIMethods.PrintBalanceAfterRound(remainingCredits, winningRowCount);
                 remainingCredits = moneyWon;
                 //wait to reach zero credit then ask if the user wants to continue or stop playing.
-                if (userCredits == 0)
+                if (remainingCredits == 0)
                 {
                     UIMethods.NotEnoughCredit();
                     Console.WriteLine("Keep playing? Y/N: ");
