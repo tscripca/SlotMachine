@@ -1,6 +1,4 @@
-﻿using SlotMachine;
-using System;
-namespace SlotMachine
+﻿namespace SlotMachine
 {
     public static class UIMethods
     {
@@ -16,7 +14,7 @@ namespace SlotMachine
         {
             Console.ReadKey();
         }
-        public static void NotEnoughCredit()
+        public static void ShowInsufficientFundsMessage()
         {
             Console.WriteLine("Not enough credit to play!");
         }
@@ -25,17 +23,17 @@ namespace SlotMachine
             Console.WriteLine($"\t\t\t\tCredit balance: {creditValue}");
             return creditValue;
         }        
-        public static int GetWin(int linesMatch)
+        public static int DisplayWinValue(int linesMatch)
         {
             Console.WriteLine($"You've won ${linesMatch} this round.");
             return linesMatch;
         }
-        public static int MoneyCounter(int userMoney, int linesToBet)
+        public static int GetCreditBalance(int userMoney, int linesToBet)
         {
             int creditToDisplay = userMoney - linesToBet;
             return creditToDisplay;
         }
-        public static int PrintBalanceAfterRound(int moneyLeft, int linesMatch)
+        public static int GetEarnedCredits(int moneyLeft, int linesMatch)
         {
             int totalWin = moneyLeft + linesMatch;
             return totalWin;

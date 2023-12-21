@@ -1,7 +1,4 @@
-﻿using SlotMachine;
-using System;
-
-namespace SlotMachine
+﻿namespace SlotMachine
 {
     public static class Constants
     {

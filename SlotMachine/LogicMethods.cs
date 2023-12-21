@@ -1,7 +1,4 @@
-﻿using SlotMachine;
-using System;
-
-namespace SlotMachine
+﻿namespace SlotMachine
 {
     public static class LogicMethods
     {
@@ -97,8 +94,8 @@ namespace SlotMachine
                 winningRowCount++;
             }
             return winningRowCount++;
-        }                        
-        //public static int GridGenerator()
+        }
+        //public static int GenerateSlotMachineValues()
         //{
         //    int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
         //    Random rng = new Random();
