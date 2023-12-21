@@ -106,5 +106,26 @@
             }
             return betAmount;
         } 
+        public static bool GetUserDecision(bool userDecision, int moneyLeft)
+        {
+            if (moneyLeft == 0)
+            {
+                UIMethods.ShowInsufficientFundsMessage();
+                Console.WriteLine("Keep playing? Y/N: ");
+                ConsoleKeyInfo userAnswer = Console.ReadKey();
+                char keepPlaying = (char)userAnswer.KeyChar;
+                if (keepPlaying == 'y')
+                {
+                   userDecision = true;
+                }
+                else
+                {
+                    userDecision = false;
+                }
+            }
+            return userDecision;
+        }
+        
+        
     }
 }

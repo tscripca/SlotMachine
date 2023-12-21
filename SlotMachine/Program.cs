@@ -1,4 +1,6 @@
-﻿namespace SlotMachine
+﻿using System.Net.Security;
+
+namespace SlotMachine
 {
     public static class Program
     {
@@ -15,7 +17,7 @@
             {
                 //program will come back here when no credit left or not enough to bet. - minimum fee is $1.
                 if (jumpBackToStart)
-                {                    
+                {
                     Console.Write("Insert credit: $");
                     userCredits = Convert.ToInt32(Console.ReadLine());
                     userCredits += tempStore;
@@ -28,7 +30,7 @@
                 //the program will stop taking money when there's not enough credit to bet,
                 //so negative values are not allowed. 
                 if (userCredits < 0)
-                {   
+                {
                     jumpBackToStart = true;
                     //because SetBetAmount() could output a negative value,
                     //tempStore will store the userCredit before placing the bet, this way the user can then
@@ -70,17 +72,10 @@
                 UIMethods.DisplayWinValue(winningRowCount);
                 userCredits = UIMethods.GetEarnedCredits(userCredits, winningRowCount);
                 //wait to reach zero credit then ask if the user wants to continue or stop playing.
-                if (userCredits == 0)
-                {
-                    UIMethods.ShowInsufficientFundsMessage();
-                    Console.WriteLine("Keep playing? Y/N: ");
-                    ConsoleKeyInfo userAnswer = Console.ReadKey();
-                    char keepPlaying = (char)userAnswer.KeyChar;
-                    UIMethods.AddEmptyLine();
-                    userWantsToPlay = (keepPlaying == 'y');
-                    UIMethods.ClearScreen();
+                if (UIMethods.GetUserDecision(userWantsToPlay, userCredits) == true)
                     jumpBackToStart = true;
-                }
+                else
+                    break;
             }
         }
     }
