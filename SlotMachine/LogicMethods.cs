@@ -2,6 +2,7 @@
 {
     public static class LogicMethods
     {
+        
         public static int CheckHorizontalWin(int betAmount, int[,] slotMachine)
         {
             int winningRowCount = 0;
@@ -95,22 +96,18 @@
             }
             return winningRowCount++;
         }
-        //public static int GenerateSlotMachineValues()
-        //{
-        //    int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
-        //    Random rng = new Random();
-        //    int rndNum = 0;
-        //    for (int rowIndex = 0; rowIndex < Constants.SLOT_MACHINE_ROWS; rowIndex++)
-        //    {
-        //        for (int columnIndex = 0; columnIndex < Constants.SLOT_MACHINE_COLUMNS; columnIndex++)
-        //        {
-        //            rndNum = rng.Next(0, Constants.UPPPER_BOUND);
-        //            slotMachine[rowIndex, columnIndex] = rndNum;
-        //            Console.Write(rndNum + " ");
-        //        }
-        //        UIMethods.AddEmptyLine();
-        //    }
-        //    return rndNum;
-        //}
+        public static int [,] GenerateSlotMachineValues()
+        {
+            int[,] twoDimensionArray = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
+            for (int rowIndex = 0; rowIndex < Constants.SLOT_MACHINE_ROWS; rowIndex++)
+            {
+                for (int columnIndex = 0; columnIndex < Constants.SLOT_MACHINE_COLUMNS; columnIndex++)
+                {
+                    int randomValue = Program.rng.Next(0, Constants.UPPPER_BOUND);
+                    twoDimensionArray[rowIndex, columnIndex] = randomValue;
+                }
+            }
+            return twoDimensionArray;
+        }
     }
 }

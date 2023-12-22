@@ -1,4 +1,6 @@
-﻿namespace SlotMachine
+﻿using System.Reflection.PortableExecutable;
+
+namespace SlotMachine
 {
     public static class UIMethods
     {
@@ -22,7 +24,7 @@
         {
             Console.WriteLine($"\t\t\t\tCredit balance: {creditValue}");
             return creditValue;
-        }        
+        }
         public static int DisplayWinValue(int linesMatch)
         {
             Console.WriteLine($"You've won ${linesMatch} this round.");
@@ -54,7 +56,6 @@
         public static GameMode ChooseGameMode()
         {
             GameMode gameModeEnum = GameMode.invalid;
-
             while (gameModeEnum == GameMode.invalid)
             {
                 Console.WriteLine("Choose game mode: (h, v, d)");
@@ -67,7 +68,8 @@
                     case 'h': gameModeEnum = GameMode.horizontal; break;
                     case 'v': gameModeEnum = GameMode.vertical; break;
                     case 'd': gameModeEnum = GameMode.diagonal; break;
-                    default: gameModeEnum = GameMode.invalid;
+                    default:
+                        gameModeEnum = GameMode.invalid;
                         Console.WriteLine("Selection not available!"); break;
                 }
             }
@@ -77,18 +79,16 @@
         {
             int betAmount = 0;
             bool betAmountPass = false;
-                       
             switch (chosenMode)
             {
                 case GameMode.horizontal:
                 case GameMode.vertical:
-                    while(!betAmountPass)
+                    while (!betAmountPass)
                     {
-                        Console.WriteLine($"How many lines would you like to play?: ({Constants.BET_ONE_DOLLAR} to {Constants.SLOT_MACHINE_ROWS})");                                                              
+                        Console.WriteLine($"How many lines would you like to play?: ({Constants.BET_ONE_DOLLAR} to {Constants.SLOT_MACHINE_ROWS})");
                         ConsoleKeyInfo getAnswer = Console.ReadKey();
                         betAmount = int.Parse(getAnswer.KeyChar.ToString());
                         ClearScreen();
-
                         if (betAmount >= Constants.BET_ONE_DOLLAR && betAmount <= Constants.SLOT_MACHINE_ROWS)
                         {
                             betAmountPass = true;
@@ -98,34 +98,44 @@
                             betAmountPass = false;
                             Console.WriteLine("Selection not available");
                         }
-                    }                    
+                    }
                     break;
                 case GameMode.diagonal:
                     betAmount = Constants.BET_TWO_DOLLARS;
                     break;
             }
             return betAmount;
-        } 
-        public static bool GetUserDecision(bool userDecision, int moneyLeft)
+        }
+        public static bool GetUserDecision()
         {
-            if (moneyLeft == 0)
+            bool userDecision;
+            ShowInsufficientFundsMessage();
+            Console.WriteLine("Keep playing? Y/N: ");
+            ConsoleKeyInfo userAnswer = Console.ReadKey();
+            char keepPlaying = (char)userAnswer.KeyChar;
+            AddEmptyLine();
+            if (keepPlaying == 'y')
             {
-                UIMethods.ShowInsufficientFundsMessage();
-                Console.WriteLine("Keep playing? Y/N: ");
-                ConsoleKeyInfo userAnswer = Console.ReadKey();
-                char keepPlaying = (char)userAnswer.KeyChar;
-                if (keepPlaying == 'y')
-                {
-                   userDecision = true;
-                }
-                else
-                {
-                    userDecision = false;
-                }
+               userDecision = true;
+            }
+            else
+            {
+                userDecision = false;
             }
             return userDecision;
         }
-        
-        
+        public static int [,] PrintSlotMachineValues(int[,] gridArray)
+        {
+            for (int rowIndex = 0; rowIndex < Constants.SLOT_MACHINE_ROWS; rowIndex++)
+            {
+                for (int columnIndex = 0; columnIndex < Constants.SLOT_MACHINE_COLUMNS; columnIndex++)
+                {
+                    int randomValue = gridArray[rowIndex, columnIndex];
+                    Console.Write(randomValue + " ");
+                }
+                UIMethods.AddEmptyLine();
+            }
+            return gridArray;
+        }
     }
 }

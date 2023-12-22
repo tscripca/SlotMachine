@@ -4,10 +4,10 @@ namespace SlotMachine
 {
     public static class Program
     {
+        public static readonly Random rng = new Random();
         static void Main(string[] args)
         {
             int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
-            Random rng = new Random();
             int userCredits = 0;
             int tempStore = 0;
             bool jumpBackToStart = true;
@@ -45,17 +45,8 @@ namespace SlotMachine
                 }
                 UIMethods.DisplayCreditBalance(userCredits);
                 //generate slot machine values
-                int rndNum = 0;
-                for (int rowIndex = 0; rowIndex < slotMachine.GetLength(1); rowIndex++)
-                {
-                    for (int columnIndex = 0; columnIndex < slotMachine.GetLength(0); columnIndex++)
-                    {
-                        rndNum = rng.Next(0, Constants.UPPPER_BOUND);
-                        slotMachine[rowIndex, columnIndex] = rndNum;
-                        Console.Write(rndNum + " ");
-                    }
-                    UIMethods.AddEmptyLine();
-                }
+                slotMachine = LogicMethods.GenerateSlotMachineValues();
+                UIMethods.PrintSlotMachineValues(slotMachine);                
                 int winningRowCount = 0;
                 if (gameModeEnum == GameMode.horizontal)
                 {
@@ -72,10 +63,18 @@ namespace SlotMachine
                 UIMethods.DisplayWinValue(winningRowCount);
                 userCredits = UIMethods.GetEarnedCredits(userCredits, winningRowCount);
                 //wait to reach zero credit then ask if the user wants to continue or stop playing.
-                if (UIMethods.GetUserDecision(userWantsToPlay, userCredits) == true)
-                    jumpBackToStart = true;
-                else
-                    break;
+                if (userCredits == 0)
+                {
+                    if (UIMethods.GetUserDecision() == true)
+                    {
+                        //userWantsToPlay = true;
+                        jumpBackToStart = true;
+                    }                       
+                    else
+                    {
+                        userWantsToPlay = false;
+                    }
+                }               
             }
         }
     }
