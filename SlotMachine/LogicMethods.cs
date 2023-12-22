@@ -2,7 +2,12 @@
 {
     public static class LogicMethods
     {
-        
+        /// <summary>
+        /// Performs a check when the horizontal game mode is selected.
+        /// </summary>
+        /// <param name="betAmount">Value of the user bet which will determine how many checks the nested for loop should perform.</param>
+        /// <param name="slotMachine">The 2D array to check.</param>
+        /// <returns>Returns how many lines matched as an integer.</returns>
         public static int CheckHorizontalWin(int betAmount, int[,] slotMachine)
         {
             int winningRowCount = 0;
@@ -24,6 +29,12 @@
             }
             return winningRowCount;
         }
+        /// <summary>
+        /// Performs a check when the vertical game mode is selected.
+        /// </summary>
+        /// <param name="betAmount">Value of the user bet which will determine how many checks the nested for loop should perform.</param>
+        /// <param name="slotMachine">The 2D array to check.</param>
+        /// <returns>Returns how many lines matched as an integer.</returns>
         public static int CheckVerticalWin(int betAmount, int[,] slotMachine)
         {
             int winningRowCount = 0;
@@ -45,6 +56,11 @@
             }
             return winningRowCount++;
         }
+        /// <summary>
+        /// Game mode automatically sets bet ampunt to "2" as there are only two diagonals to check.
+        /// </summary>
+        /// <param name="slotMachine">The 2D array to check.</param>
+        /// <returns>Returns how many diagonals matched as an integer.</returns>
         public static int CheckDiagonalWin(int[,] slotMachine)
         {
             int lastColumnIndex = Constants.SLOT_MACHINE_COLUMNS - 1;
@@ -96,7 +112,11 @@
             }
             return winningRowCount++;
         }
-        public static int [,] GenerateSlotMachineValues()
+        /// <summary>
+        /// This method will fill the array with random values.
+        /// </summary>
+        /// <returns>Returns the int[,] value of the 2D array</returns>
+        public static int[,] GenerateSlotMachineValues()
         {
             int[,] twoDimensionArray = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
             for (int rowIndex = 0; rowIndex < Constants.SLOT_MACHINE_ROWS; rowIndex++)

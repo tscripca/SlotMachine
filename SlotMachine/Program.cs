@@ -44,7 +44,6 @@ namespace SlotMachine
                     jumpBackToStart = false;
                 }
                 UIMethods.DisplayCreditBalance(userCredits);
-                //generate slot machine values
                 slotMachine = LogicMethods.GenerateSlotMachineValues();
                 UIMethods.PrintSlotMachineValues(slotMachine);                
                 int winningRowCount = 0;

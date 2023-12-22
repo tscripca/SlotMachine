@@ -16,30 +16,58 @@ namespace SlotMachine
         {
             Console.ReadKey();
         }
+        /// <summary>
+        /// Informs the user when there are not enough credits to bet.
+        /// </summary>
         public static void ShowInsufficientFundsMessage()
         {
             Console.WriteLine("Not enough credit to play!");
         }
+        /// <summary>
+        /// Permanently displays the remaining credit.
+        /// </summary>
+        /// <param name="creditValue"></param>
+        /// <returns>Returns an int value.</returns>
         public static int DisplayCreditBalance(int creditValue)
         {
             Console.WriteLine($"\t\t\t\tCredit balance: {creditValue}");
             return creditValue;
         }
+        /// <summary>
+        /// Displays how much user has won after each round.
+        /// </summary>
+        /// <param name="linesMatch">The value to be printed on screen.</param>
+        /// <returns>Returns an int value.</returns>
         public static int DisplayWinValue(int linesMatch)
         {
             Console.WriteLine($"You've won ${linesMatch} this round.");
             return linesMatch;
         }
+        /// <summary>
+        /// Calculates the remaining credit after each bet.
+        /// </summary>
+        /// <param name="userMoney">User initial credit.</param>
+        /// <param name="linesToBet">Amount they bet each round.</param>
+        /// <returns>Returns an integer value.</returns>
         public static int GetCreditBalance(int userMoney, int linesToBet)
         {
             int creditToDisplay = userMoney - linesToBet;
             return creditToDisplay;
         }
+        /// <summary>
+        /// Calculate how much user has won after each round and adds up to user's credit balance.
+        /// </summary>
+        /// <param name="moneyLeft">User money after each bet.</param>
+        /// <param name="linesMatch">How many lines he won/matched.</param>
+        /// <returns>Returns an integer value.</returns>
         public static int GetEarnedCredits(int moneyLeft, int linesMatch)
         {
             int totalWin = moneyLeft + linesMatch;
             return totalWin;
         }
+        /// <summary>
+        /// Displays the game rules on screen.
+        /// </summary>
         public static void DisplayGameRules()
         {
             Console.WriteLine("\t\t\t=SLOT MACHINE=");
@@ -52,7 +80,11 @@ namespace SlotMachine
             GetKey();
             ClearScreen();
         }
-        //both "ChooseGameMode()" and "SetBetamount()" methods contain user input validation.
+        /// <summary>
+        /// User input validation.
+        /// Grants user the choice to play one of the three game modes available.
+        /// </summary>
+        /// <returns>Returns an enum.</returns>
         public static GameMode ChooseGameMode()
         {
             GameMode gameModeEnum = GameMode.invalid;
@@ -75,6 +107,12 @@ namespace SlotMachine
             }
             return (GameMode)gameModeEnum;
         }
+        /// <summary>
+        /// User input validation.
+        /// After game mode is selected, the user can now select how many rows to play, which represents the amount of money to bet.
+        /// </summary>
+        /// <param name="chosenMode"></param>
+        /// <returns>Returns an int value.</returns>
         public static int SetBetAmount(GameMode chosenMode)
         {
             int betAmount = 0;
@@ -106,6 +144,10 @@ namespace SlotMachine
             }
             return betAmount;
         }
+        /// <summary>
+        /// In some cases it may ask the user if he wants to continue playing.
+        /// </summary>
+        /// <returns>Returns a boolean value.</returns>
         public static bool GetUserDecision()
         {
             bool userDecision;
@@ -124,6 +166,11 @@ namespace SlotMachine
             }
             return userDecision;
         }
+        /// <summary>
+        /// Prints the 2D Array's random values to the screen.
+        /// </summary>
+        /// <param name="gridArray">Takes in the value from the LogicMethod.</param>
+        /// <returns>Returns an int[,] value.</returns>
         public static int [,] PrintSlotMachineValues(int[,] gridArray)
         {
             for (int rowIndex = 0; rowIndex < Constants.SLOT_MACHINE_ROWS; rowIndex++)
