@@ -29,6 +29,7 @@
             }
             return winningRowCount;
         }
+
         /// <summary>
         /// Performs a check when the vertical game mode is selected.
         /// </summary>
@@ -56,6 +57,7 @@
             }
             return winningRowCount++;
         }
+
         /// <summary>
         /// Game mode automatically sets bet ampunt to "2" as there are only two diagonals to check.
         /// </summary>
@@ -112,6 +114,7 @@
             }
             return winningRowCount++;
         }
+
         /// <summary>
         /// This method will fill the array with random values.
         /// </summary>

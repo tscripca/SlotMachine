@@ -8,14 +8,17 @@ namespace SlotMachine
         {
             Console.Clear();
         }
+
         public static void AddEmptyLine()
         {
             Console.WriteLine();
         }
+
         public static void GetKey()
         {
             Console.ReadKey();
         }
+
         /// <summary>
         /// Informs the user when there are not enough credits to bet.
         /// </summary>
@@ -23,6 +26,7 @@ namespace SlotMachine
         {
             Console.WriteLine("Not enough credit to play!");
         }
+
         /// <summary>
         /// Permanently displays the remaining credit.
         /// </summary>
@@ -33,6 +37,7 @@ namespace SlotMachine
             Console.WriteLine($"\t\t\t\tCredit balance: {creditValue}");
             return creditValue;
         }
+
         /// <summary>
         /// Displays how much user has won after each round.
         /// </summary>
@@ -43,6 +48,7 @@ namespace SlotMachine
             Console.WriteLine($"You've won ${linesMatch} this round.");
             return linesMatch;
         }
+
         /// <summary>
         /// Calculates the remaining credit after each bet.
         /// </summary>
@@ -54,6 +60,7 @@ namespace SlotMachine
             int creditToDisplay = userMoney - linesToBet;
             return creditToDisplay;
         }
+
         /// <summary>
         /// Calculate how much user has won after each round and adds up to user's credit balance.
         /// </summary>
@@ -65,6 +72,7 @@ namespace SlotMachine
             int totalWin = moneyLeft + linesMatch;
             return totalWin;
         }
+
         /// <summary>
         /// Displays the game rules on screen.
         /// </summary>
@@ -80,6 +88,7 @@ namespace SlotMachine
             GetKey();
             ClearScreen();
         }
+
         /// <summary>
         /// User input validation.
         /// Grants user the choice to play one of the three game modes available.
@@ -107,6 +116,7 @@ namespace SlotMachine
             }
             return (GameMode)gameModeEnum;
         }
+
         /// <summary>
         /// User input validation.
         /// After game mode is selected, the user can now select how many rows to play, which represents the amount of money to bet.
@@ -144,6 +154,7 @@ namespace SlotMachine
             }
             return betAmount;
         }
+
         /// <summary>
         /// In some cases it may ask the user if he wants to continue playing.
         /// </summary>
@@ -166,6 +177,7 @@ namespace SlotMachine
             }
             return userDecision;
         }
+
         /// <summary>
         /// Prints the 2D Array's random values to the screen.
         /// </summary>
