@@ -1,4 +1,5 @@
-﻿using System.Reflection.PortableExecutable;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.PortableExecutable;
 
 namespace SlotMachine
 {
@@ -57,8 +58,8 @@ namespace SlotMachine
         /// <returns>Returns an integer value.</returns>
         public static int GetCreditBalance(int userMoney, int linesToBet)
         {
-            int creditToDisplay = userMoney - linesToBet;
-            return creditToDisplay;
+            int CreditToDisplay = userMoney - linesToBet;            
+            return CreditToDisplay;
         }
 
         /// <summary>
@@ -195,6 +196,25 @@ namespace SlotMachine
                 UIMethods.AddEmptyLine();
             }
             return gridArray;
+        }
+
+        /// <summary>
+        /// Waits for user input and sets the value of the playing credit.
+        /// </summary>
+        /// <param name="inputValue">Takes in the value from userCredits</param>
+        /// <param name="temporary">Takes in the value from tempStore</param>
+        /// <returns>Returns an integer</returns>
+        public static int SetCreditValue(int inputValue, int initialValue)
+        {
+            if (inputValue <= 0)
+            {
+                Console.WriteLine("Insert credit: ");
+                inputValue = Convert.ToInt32(Console.ReadLine());
+                inputValue += initialValue;
+                ClearScreen();
+                DisplayCreditBalance(inputValue);
+            }
+            return inputValue;
         }
     }
 }
