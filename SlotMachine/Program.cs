@@ -10,17 +10,18 @@ namespace SlotMachine
             int[,] slotMachine = new int[Constants.SLOT_MACHINE_ROWS, Constants.SLOT_MACHINE_COLUMNS];
             int userCredits = 0;
             int tempStore = 0;
+            int linesToPlay = 0;
             bool userWantsToPlay = true;
             //UIMethods.DisplayGameRules();
             while (userWantsToPlay)
             {
                 userCredits = UIMethods.SetCreditValue(userCredits, tempStore);
                 GameMode gameModeEnum = UIMethods.ChooseGameMode();
-                int betAmount = UIMethods.SetBetAmount(gameModeEnum);
-                userCredits = UIMethods.GetCreditBalance(userCredits, betAmount);
+                linesToPlay = UIMethods.SetBetAmount(gameModeEnum);
+                userCredits = UIMethods.GetCreditBalance(userCredits, linesToPlay);
                 if (userCredits < 0)
                 {                    
-                    tempStore = betAmount + userCredits;
+                    tempStore = linesToPlay + userCredits;
                     UIMethods.ShowInsufficientFundsMessage();
                     continue;
                 }
@@ -30,11 +31,11 @@ namespace SlotMachine
                 int winningRowCount = 0;
                 if (gameModeEnum == GameMode.horizontal)
                 {
-                    winningRowCount = LogicMethods.CheckHorizontalWin(betAmount, slotMachine);
+                    winningRowCount = LogicMethods.CheckHorizontalWin(linesToPlay, slotMachine);
                 }
                 if (gameModeEnum == GameMode.vertical)
                 {
-                    winningRowCount = LogicMethods.CheckVerticalWin(betAmount, slotMachine);
+                    winningRowCount = LogicMethods.CheckVerticalWin(linesToPlay, slotMachine);
                 }
                 if (gameModeEnum == GameMode.diagonal)
                 {
