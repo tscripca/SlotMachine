@@ -1,6 +1,4 @@
-﻿using System.Net.Security;
-
-namespace SlotMachine
+﻿namespace SlotMachine
 {
     public static class Program
     {

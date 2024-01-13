@@ -59,7 +59,10 @@
         }
 
         /// <summary>
-        /// Game mode automatically sets bet ampunt to "2" as there are only two diagonals to check.
+        /// Game mode automatically sets bet amount to "2" as there are only two diagonals to check.
+        /// The program will perform a check ar the same time on both diagonals inside the same main FOR loop,
+        /// and if at least one element in any diagonals does not match with the next one in the same direction,
+        /// the program will ignore that diagonal and continue checking only the diagonal that contains equal elements.
         /// </summary>
         /// <param name="slotMachine">The 2D array to check.</param>
         /// <returns>Returns how many diagonals matched as an integer.</returns>
@@ -67,49 +70,49 @@
         {
             int lastColumnIndex = Constants.SLOT_MACHINE_COLUMNS - 1;
             int winningRowCount = 0;
-            int matchingDiagonalNumbers = 0;
+            int matchingLeftDiagonalNumbers = 0;
+            int matchingRightDiagonalNumbers = 0;
+            bool leftDiagonalMatch = true;
+            bool rightDiagonalMatch = true;
             //checking the 1st diagonal
             for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
             {
-                bool numbersMatch = true;
                 for (int columnIndex = rowIndex; columnIndex <= rowIndex; columnIndex++)
                 {
                     if (slotMachine[0, 0] != slotMachine[rowIndex, columnIndex])
                     {
-                        numbersMatch = false;
+                        leftDiagonalMatch = false;
                         break;
                     }
                 }
-                if (numbersMatch)
+                if (leftDiagonalMatch)
                 {
-                    matchingDiagonalNumbers++;
+                    matchingLeftDiagonalNumbers++;
                 }
-            }
-            if (matchingDiagonalNumbers >= slotMachine.GetLength(1))
-            {
-                winningRowCount++;
-            }
-            matchingDiagonalNumbers = 0;
-            //checking 2nd diagonal
-            for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
-            {
-                bool numbersMatch = true;
+                //Checking 2nd diagonal
                 int randomValue = 0;
                 for (int columnIndex = lastColumnIndex - rowIndex; columnIndex >= randomValue; columnIndex--)
                 {
                     if (slotMachine[0, lastColumnIndex] != slotMachine[rowIndex, columnIndex])
                     {
-                        numbersMatch = false;
+                        rightDiagonalMatch = false;
+                        break;
                     }
                     randomValue = slotMachine.GetLength(1);
                 }
-                if (numbersMatch)
+                if (rightDiagonalMatch)
                 {
-                    matchingDiagonalNumbers++;
-                }
+                    matchingRightDiagonalNumbers++;
+                }    
             }
-            if (matchingDiagonalNumbers >= slotMachine.GetLength(1))
+            if (matchingLeftDiagonalNumbers >= slotMachine.GetLength(1))
             {
+                Console.WriteLine("Left diagonal win!");
+                winningRowCount++;
+            }
+            if (matchingRightDiagonalNumbers >= slotMachine.GetLength(1))
+            {
+                Console.WriteLine("Right diagonal win!");
                 winningRowCount++;
             }
             return winningRowCount++;
