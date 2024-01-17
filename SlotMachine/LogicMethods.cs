@@ -69,51 +69,42 @@
         public static int CheckDiagonalWin(int[,] slotMachine)
         {
             int lastColumnIndex = Constants.SLOT_MACHINE_COLUMNS - 1;
+            int variableColumnIndex = Constants.SLOT_MACHINE_COLUMNS - 1;
             int winningRowCount = 0;
             int matchingLeftDiagonalNumbers = 0;
             int matchingRightDiagonalNumbers = 0;
             bool leftDiagonalMatch = true;
             bool rightDiagonalMatch = true;
-            //checking the 1st diagonal
-            for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
+
+            for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++, variableColumnIndex--)
             {
-                for (int columnIndex = rowIndex; columnIndex <= rowIndex; columnIndex++)
+                int columnIndex = rowIndex;
+                if (slotMachine[0, 0] != slotMachine[rowIndex, columnIndex])
                 {
-                    if (slotMachine[0, 0] != slotMachine[rowIndex, columnIndex])
-                    {
-                        leftDiagonalMatch = false;
-                        break;
-                    }
+                    leftDiagonalMatch = false; break;
+                }
+                if (slotMachine[0, lastColumnIndex] != slotMachine[rowIndex, variableColumnIndex])
+                {
+                    rightDiagonalMatch = false; break;
                 }
                 if (leftDiagonalMatch)
                 {
                     matchingLeftDiagonalNumbers++;
-                }
-                //Checking 2nd diagonal
-                int randomValue = 0;
-                for (int columnIndex = lastColumnIndex - rowIndex; columnIndex >= randomValue; columnIndex--)
-                {
-                    if (slotMachine[0, lastColumnIndex] != slotMachine[rowIndex, columnIndex])
+                    if (matchingLeftDiagonalNumbers >= 3)
                     {
-                        rightDiagonalMatch = false;
-                        break;
+                        Console.WriteLine("Left diagonal win!");
+                        winningRowCount++;
                     }
-                    randomValue = slotMachine.GetLength(1);
                 }
                 if (rightDiagonalMatch)
                 {
                     matchingRightDiagonalNumbers++;
-                }    
-            }
-            if (matchingLeftDiagonalNumbers >= slotMachine.GetLength(1))
-            {
-                Console.WriteLine("Left diagonal win!");
-                winningRowCount++;
-            }
-            if (matchingRightDiagonalNumbers >= slotMachine.GetLength(1))
-            {
-                Console.WriteLine("Right diagonal win!");
-                winningRowCount++;
+                    if (matchingRightDiagonalNumbers >= 3)
+                    {
+                        Console.WriteLine("Right diagonal win!");
+                        winningRowCount++;
+                    }
+                }
             }
             return winningRowCount++;
         }

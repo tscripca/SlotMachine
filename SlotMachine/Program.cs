@@ -10,7 +10,7 @@
             int tempStore = 0;
             int linesToPlay = 0;
             bool userWantsToPlay = true;
-            //UIMethods.DisplayGameRules();
+            UIMethods.DisplayGameRules();
             while (userWantsToPlay)
             {
                 userCredits = UIMethods.SetCreditValue(userCredits, tempStore);
