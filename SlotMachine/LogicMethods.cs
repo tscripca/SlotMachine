@@ -68,45 +68,32 @@
         /// <returns>Returns how many diagonals matched as an integer.</returns>
         public static int CheckDiagonalWin(int[,] slotMachine)
         {
-            int lastColumnIndex = Constants.SLOT_MACHINE_COLUMNS - 1;
-            int variableColumnIndex = Constants.SLOT_MACHINE_COLUMNS - 1;
-            int winningRowCount = 0;
-            int matchingLeftDiagonalNumbers = 0;
-            int matchingRightDiagonalNumbers = 0;
+            int lastColumnIndex = Constants.SLOT_MACHINE_COLUMNS - Constants.BET_ONE_LINE;
+            int variableColumnIndex = Constants.SLOT_MACHINE_COLUMNS - Constants.BET_ONE_LINE;
             bool leftDiagonalMatch = true;
             bool rightDiagonalMatch = true;
-
+            int winningDiagonal = 0;
             for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++, variableColumnIndex--)
             {
                 int columnIndex = rowIndex;
                 if (slotMachine[0, 0] != slotMachine[rowIndex, columnIndex])
                 {
-                    leftDiagonalMatch = false; break;
+                    leftDiagonalMatch = false;
                 }
                 if (slotMachine[0, lastColumnIndex] != slotMachine[rowIndex, variableColumnIndex])
                 {
-                    rightDiagonalMatch = false; break;
+                    rightDiagonalMatch = false;
                 }
-                if (leftDiagonalMatch)
+                if (!leftDiagonalMatch && !rightDiagonalMatch)
                 {
-                    matchingLeftDiagonalNumbers++;
-                    if (matchingLeftDiagonalNumbers >= 3)
-                    {
-                        Console.WriteLine("Left diagonal win!");
-                        winningRowCount++;
-                    }
+                    winningDiagonal = 0;
                 }
-                if (rightDiagonalMatch)
+                if(leftDiagonalMatch && rightDiagonalMatch)
                 {
-                    matchingRightDiagonalNumbers++;
-                    if (matchingRightDiagonalNumbers >= 3)
-                    {
-                        Console.WriteLine("Right diagonal win!");
-                        winningRowCount++;
-                    }
+                    winningDiagonal = 2;
                 }
             }
-            return winningRowCount++;
+            return winningDiagonal;
         }
 
         /// <summary>
