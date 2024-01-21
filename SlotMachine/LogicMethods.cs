@@ -10,13 +10,13 @@
         /// <returns>Returns how many lines matched as an integer.</returns>
         public static int CheckHorizontalWin(int betAmount, int[,] slotMachine)
         {
-            int winningRowCount = 0;
+            int winningHorizontal = 0;
             for (int rowIndex = 0; rowIndex < betAmount; rowIndex++)
             {
                 bool numbersMatch = true;
                 for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
                 {
-                    if (slotMachine[rowIndex, 0] != slotMachine[rowIndex, columnIndex])
+                    if (slotMachine[0, 0] != slotMachine[rowIndex, columnIndex])
                     {
                         numbersMatch = false;
                         break;
@@ -24,10 +24,10 @@
                 }
                 if (numbersMatch)
                 {
-                    winningRowCount++;
+                    winningHorizontal++;
                 }
             }
-            return winningRowCount;
+            return winningHorizontal;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@
         /// <returns>Returns how many lines matched as an integer.</returns>
         public static int CheckVerticalWin(int betAmount, int[,] slotMachine)
         {
-            int winningRowCount = 0;
+            int winningVertical = 0;
             for (int columnIndex = 0; columnIndex < betAmount; columnIndex++)
             {
                 bool numbersMatch = true;
@@ -52,10 +52,10 @@
                 }
                 if (numbersMatch)
                 {
-                    winningRowCount++;
+                    winningVertical++;
                 }
             }
-            return winningRowCount++;
+            return winningVertical++;
         }
 
         /// <summary>
@@ -84,15 +84,11 @@
                 {
                     rightDiagonalMatch = false;
                 }
-                if (!leftDiagonalMatch && !rightDiagonalMatch)
-                {
-                    winningDiagonal = 0;
-                }
-                if(leftDiagonalMatch && rightDiagonalMatch)
-                {
-                    winningDiagonal = 2;
-                }
             }
+            if (leftDiagonalMatch)
+                winningDiagonal++;
+            if (rightDiagonalMatch)
+                winningDiagonal++;
             return winningDiagonal;
         }
 
