@@ -11,10 +11,11 @@
         public static int CheckHorizontalWin(int betAmount, int[,] slotMachine)
         {
             int winningHorizontal = 0;
-            for (int rowIndex = 0; rowIndex < betAmount; rowIndex++)
+            int rowIndex = 0;
+            bool numbersMatch = true;
+            while (rowIndex < betAmount)
             {
-                bool numbersMatch = true;
-                for (int columnIndex = 0; columnIndex < slotMachine.GetLength(1); columnIndex++)
+                for (int columnIndex = 0; columnIndex < betAmount; columnIndex++)
                 {
                     if (slotMachine[0, 0] != slotMachine[rowIndex, columnIndex])
                     {
@@ -26,6 +27,7 @@
                 {
                     winningHorizontal++;
                 }
+                rowIndex++;
             }
             return winningHorizontal;
         }
@@ -39,10 +41,11 @@
         public static int CheckVerticalWin(int betAmount, int[,] slotMachine)
         {
             int winningVertical = 0;
-            for (int columnIndex = 0; columnIndex < betAmount; columnIndex++)
+            int columnIndex = 0;
+            bool numbersMatch = true;
+            while (columnIndex < betAmount )
             {
-                bool numbersMatch = true;
-                for (int rowIndex = 0; rowIndex < slotMachine.GetLength(0); rowIndex++)
+                for (int rowIndex = 0; rowIndex < betAmount; rowIndex++)
                 {
                     if (slotMachine[0, columnIndex] != slotMachine[rowIndex, columnIndex])
                     {
@@ -54,6 +57,7 @@
                 {
                     winningVertical++;
                 }
+                columnIndex++;
             }
             return winningVertical++;
         }
