@@ -19,7 +19,7 @@
                 {
                     if (slotMachine[0, 0] != slotMachine[rowIndex, columnIndex])
                     {
-                        numbersMatch = false;
+                        numbersMatch = false; 
                         break;
                     }
                 }
